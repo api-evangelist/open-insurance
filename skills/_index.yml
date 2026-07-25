@@ -1,0 +1,28 @@
+generated: '2026-07-25'
+method: generated
+source: openapi/open-insurance-certificate-of-currency-openapi.json + https://developers.beopen.com/docs/openjs
+note: >-
+  Two packaged agent skills covering the whole of Open's usable surface. The first
+  is grounded in the single real OpenAPI operationId (`coc`); the second is
+  grounded in the documented Open.js SDK methods, because Open's commercially
+  important flow — quote to bind — has no REST equivalent and cannot be grounded
+  in an operationId. Searched first for provider-published skills or AGENTS.md on
+  developers.beopen.com and www.beopen.com; none exist.
+skills:
+- file: open-insurance-retrieve-certificate-of-currency.md
+  name: Retrieve a Certificate of Currency from Open
+  api: openapi/open-insurance-certificate-of-currency-openapi.json
+  surface: REST
+  operations:
+  - coc
+- file: open-insurance-embedded-quote-handover.md
+  name: Embed an Open insurance quote and hand the customer over
+  api: packages/open-insurance-packages.yml
+  surface: Open.js browser SDK
+  operations:
+  - opensdk.load
+  - opensdk.quote.prepare
+  - opensdk.quote.portal
+  - opensdk.quote.status
+  - opensdk.quote.history
+  - opensdk.manage.portal

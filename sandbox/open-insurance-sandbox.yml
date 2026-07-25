@@ -1,0 +1,128 @@
+generated: '2026-07-25'
+method: searched
+source: https://developers.beopen.com/docs/overview
+docs:
+- https://developers.beopen.com/docs/overview
+- https://developers.beopen.com/docs/test-data
+- https://developers.beopen.com/docs/web-app
+note: >-
+  Open runs a genuine, separately-keyed sandbox across every integration surface —
+  SDK, URL handover and widget — with published magic test values. All values
+  below are published verbatim in Open's own documentation; nothing is invented.
+  Access still requires a partner-issued sandbox key pair, but the docs print a
+  working demo key in their examples.
+environments:
+- name: sandbox
+  api_host: https://api.sandbox.beopen.com
+  portal_host: https://insurance.stage.beopen.com
+  widget_host: https://embedded.sandbox.beopen.com
+  widget_host_alt: https://embedded.stage.beopen.com
+  handover_host: https://stage.huddle.com.au
+  note: >-
+    Probed 2026-07-25: api.sandbox.beopen.com does not answer a bare root request
+    (connection failure). The host is reachable only for the SDK's documented
+    calls when a valid sandbox key is supplied.
+- name: production
+  api_host: https://api.beopen.com
+  portal_host: https://insurance.beopen.com
+  handover_host: https://huddle.com.au
+separation:
+  mechanism: key pair per environment
+  detail: >-
+    "Each account in Open is given two pairs of keys. One pair for each
+    environment — production and sandbox." Sandbox keys are issued first; a
+    partner is given production keys only once the integration is successful.
+  sdk_toggle:
+    method: opensdk.load
+    option: 'sandbox: true'
+    effect: >-
+      Automatically repoints the SDK's apiEndpoint and portalUrl at the sandbox
+      equivalents. Defaults to false.
+    example: |
+      opensdk.load("YOUR_API_KEY", {
+        sandbox: true
+      });
+  explicit_override:
+    options:
+    - apiEndpoint
+    - portalUrl
+    example: |
+      opensdk.load("YOUR_API_KEY", {
+        apiEndpoint: "https://api.stage.beopen.com",
+        portalUrl: "https://insurance.stage.beopen.com"
+      });
+published_demo_key:
+  api_key: 22cb240d-dc0a-4655-bf30-70e50ac3905a
+  note: >-
+    Printed verbatim in Open's own public documentation (the URL Handover and
+    Open.Widget sandbox examples) and as the default value in the published
+    OpenAPI. A documentation demo value, not a credential belonging to any
+    partner.
+  examples:
+  - https://stage.huddle.com.au/?key=22cb240d-dc0a-4655-bf30-70e50ac3905a&pc=hud-compare-car
+  - '<iframe src="https://embedded.sandbox.beopen.com?template=home-insurance&key=22cb240d-dc0a-4655-bf30-70e50ac3905a&pc=hudhome" height="650" width="700"></iframe>'
+magic_test_values:
+  risk_addresses:
+    note: >-
+      Underwriting outcomes are driven by the risk address. These apply to HOME
+      insurance only — any address used for a car quote results in "Cover
+      accepted".
+    values:
+    - address: LEVEL 1 200 GEORGE STREET, SYDNEY, NSW, 2000
+      outcome: Cover accepted
+    - address: 100 HINDLEY STREET, ADELAIDE, SA, 5000
+      outcome: Cover accepted
+    - address: 96 MEPAU YABU MOA ISLAND, QLD, 4875
+      outcome: Cover declined
+    - address: 1042 BOURKE-WILCANNIA ROAD, BOURKE, NSW, 2840
+      outcome: Cover declined
+  payment_cards:
+    note: >-
+      "When developing using the sandbox environment, genuine card information
+      should not be used." Use any valid future expiry and any CVC.
+    accepted:
+    - number: '4000 0003 6000 0006'
+      brand: Visa (AUS)
+      note: Charges AUD
+    - number: '4242 4242 4242 4242'
+      brand: Visa (US)
+    - number: '4000 0566 5566 5556'
+      brand: Visa (debit)
+    - number: '5555 5555 5555 4444'
+      brand: Mastercard
+    - number: '5200 8282 8282 8210'
+      brand: Mastercard (debit)
+    declines: see errors/open-insurance-decline-codes.yml
+  policy_numbers:
+    note: >-
+      The Certificate of Currency reference publishes example policy numbers in
+      its request default and response examples.
+    values:
+    - HMCP00001568
+    - PECP00000001
+    - PEHXC0000001
+  product_codes:
+    note: Product codes are issued per partner account; these appear in the public examples.
+    values:
+    - hud-compare-car
+    - hudhome
+    - home-insurance
+test_tooling:
+- name: Sample test site
+  url: https://developers.beopen.com/docs/web-app
+  description: >-
+    A hosted web application that lets a partner simulate and test the
+    capabilities of the Open Platform against the same sandbox environment.
+- name: JWT generation
+  url: https://developers.beopen.com/docs/authenticating-using-jwt
+  description: >-
+    Docs walk through minting an HS256 test token on jwt.io signed with the
+    account secret key. Marked DEPRECATED.
+not_published:
+- test clocks / time simulation
+- webhook or event triggering fixtures
+- a self-serve sandbox signup (keys are issued by an account manager)
+- seeded test policies for the Certificate of Currency operation
+related:
+- errors/open-insurance-decline-codes.yml
+- authentication/open-insurance-authentication.yml

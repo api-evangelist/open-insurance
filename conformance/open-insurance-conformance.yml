@@ -1,0 +1,141 @@
+generated: '2026-07-25'
+method: searched
+source: openapi/open-insurance-certificate-of-currency-openapi.json
+docs:
+- https://www.beopen.com/terms/australia
+- https://www.beopen.com/terms/uk
+- https://www.beopen.com/platform/ai-safety-harness
+note: >-
+  Open's conformance posture is almost entirely REGULATORY rather than technical.
+  It is an authorised, licensed insurance distributor in three markets and says so
+  in its terms pages, but it adopts no insurance data standard (no ACORD, AL3,
+  NGDS, IVANS) and no API standard beyond plain HTTP/JSON. There are no published
+  security certifications (no SOC 2, ISO 27001, PCI DSS attestation, HIPAA or
+  FedRAMP) on any Open host, and no trust centre.
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: openapi/open-insurance-certificate-of-currency-openapi.json declares openapi 3.0.3 and parses
+- id: rest-json
+  conforms: true
+  evidence: Single HTTPS POST operation exchanging application/json (application/pdf optional)
+- id: oauth2
+  conforms: false
+  evidence: >-
+    No oauth2 securityScheme in the spec; /.well-known/oauth-authorization-server
+    returns 404 on every Open host. The only OAuth in play protects the ReadMe docs
+    MCP endpoint and belongs to ReadMe, not Open.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration 404 on api.beopen.com, developers.beopen.com and www.beopen.com
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors are bare HTTP statuses with a text/plain body; no application/problem+json
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt 404 on all hosts
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Sunset or Deprecation header support documented
+- id: rfc9728-oauth-protected-resource
+  conforms: partial
+  evidence: >-
+    developers.beopen.com/.well-known/oauth-protected-resource/mcp returns 200 —
+    but it is emitted by the ReadMe documentation platform, not by Open.
+- id: model-context-protocol
+  conforms: partial
+  evidence: >-
+    A live JSON-RPC MCP endpoint exists at developers.beopen.com/mcp (401 to
+    anonymous tools/list) and marketing claims native MCP support for AI
+    assistants, but no server URL, tool list or schema is published for the
+    product surface. See mcp/open-insurance-mcp.yml.
+- id: asyncapi
+  conforms: false
+  evidence: No event, streaming or webhook surface is published; quote progress is polled
+- id: graphql
+  conforms: false
+  evidence: No /graphql endpoint (404 on api.beopen.com)
+- id: acord
+  conforms: false
+  evidence: >-
+    Zero matches for ACORD, ACORD XML, AL3, NGDS, IVANS, agency download, Applied
+    Epic or Vertafore across the developer hub, llms.txt, the harvested OpenAPI
+    and the corporate site. Open integrates partners through its own proprietary
+    SDK / embed / redirect model.
+- id: open-insurance-cdr-au
+  conforms: false
+  evidence: >-
+    Australia's Consumer Data Right was designated for general insurance and then
+    deferred, so there is no live open-insurance obligation for Open to meet, and
+    it implements none.
+- id: pci-dss
+  conforms: unknown
+  evidence: >-
+    Card payment is taken inside Open's hosted journey and the sandbox test-card
+    set matches a standard processor vocabulary, but no PCI attestation or
+    responsibility matrix is published.
+- id: gdpr
+  conforms: partial
+  evidence: >-
+    UK operations are FCA-authorised and the site publishes UK Terms and Policies
+    including a privacy notice; no DPA, sub-processor list or transfer mechanism
+    is published on the developer surface.
+regulatory:
+  note: >-
+    Verbatim from Open's own published terms/footers. This is the compliance
+    posture Open actually publishes — licensing and authorisation, not security
+    certification.
+  entities:
+  - jurisdiction: Australia
+    entity: Open Insurance Pty Limited
+    identifiers:
+      abn: '23 166 949 444'
+      afsl: '451712'
+    role: >-
+      Underwriting agent acting under a binding authority from the insurer;
+      appoints partner brands as authorised representatives. Huddle Insurance is a
+      business name of Open.
+    source: https://developers.beopen.com/docs/check-service-status
+  - jurisdiction: Australia (group)
+    entity: Open Insurance Technologies Pty Ltd
+    identifiers:
+      abn: '21 612 668 998'
+    role: Group parent operating subsidiaries in Australia, New Zealand and the UK
+    source: https://www.beopen.com/terms/australia
+  - jurisdiction: United Kingdom
+    entity: Open Insurance Services UK Limited
+    identifiers:
+      fca_reference: '988625'
+      company_number: '9365669'
+    role: Authorised and regulated by the Financial Conduct Authority; issues UK insurance policies
+    source: https://www.beopen.com/terms/uk
+  - jurisdiction: New Zealand
+    entity: Open (New Zealand subsidiary)
+    source: https://www.beopen.com/terms/new-zealand
+  external_dispute_resolution:
+    scheme: Australian Financial Complaints Authority (AFCA)
+    url: https://afca.org.au
+    contact: complaints@au.beopen.com
+certifications: []
+certifications_note: >-
+  None published. No trust centre (trust.beopen.com and security.beopen.com do
+  not resolve), no SOC 2 / ISO 27001 / PCI DSS / HIPAA / FedRAMP claim anywhere on
+  the corporate site or the developer hub.
+ai_governance:
+  program: AI Safety Harness
+  url: https://www.beopen.com/platform/ai-safety-harness
+  published: true
+  layers:
+  - Real-time guardrails (factual accuracy, regulated-advice boundary, brand safety, on-topic, safe language)
+  - Prompt-injection detection on inbound messages
+  - Automated auditing of 100% of conversations against regulatory-compliance, outcome and accuracy criteria
+  - Simulation and regression testing pre-deploy against adversarial scenarios
+  - Vulnerability and complaint flagging for human review
+  note: >-
+    A published, product-level AI governance program covering Open's customer-facing
+    generative-AI experiences. Marketing-page detail rather than an audited
+    framework, but it is a genuine published control set and is the most concrete
+    governance artifact Open exposes.
+related:
+- security/open-insurance-domain-security.yml
+- authentication/open-insurance-authentication.yml

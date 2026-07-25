@@ -1,0 +1,109 @@
+generated: '2026-07-25'
+method: searched
+source: openapi/open-insurance-certificate-of-currency-openapi.json
+docs: https://developers.beopen.com/docs/keys
+note: >-
+  The harvested OpenAPI declares an EMPTY components.securitySchemes and an empty
+  security requirement, so mechanical derivation yields nothing — the credential
+  model lives entirely in prose and in the request body schema. Captured here from
+  the docs. Credentials are partner-issued: "Keys are issued by Open during
+  account creation. Contact your account manager or email sales@beopen.com."
+  There is no self-serve signup, no OAuth and no OpenID Connect anywhere on Open's
+  own hosts (openid-configuration and oauth-authorization-server return 404 on
+  api.beopen.com, developers.beopen.com and www.beopen.com).
+summary:
+  types:
+  - apiKey
+  - jwt-bearer (deprecated)
+  api_key_in:
+  - body
+  - query
+  - sdk-initialiser
+  oauth2_flows: []
+  self_serve: false
+  environments:
+  - sandbox
+  - production
+  key_pair: api key + secret key, one pair per environment
+schemes:
+- name: api_key_secret_body
+  type: apiKey
+  in: body
+  parameters:
+  - api_key
+  - api_secret
+  applies_to:
+  - openapi/open-insurance-certificate-of-currency-openapi.json#coc
+  description: >-
+    The Certificate of Currency operation takes the api_key and api_secret as
+    fields in the JSON request body rather than in a header. Both are required
+    alongside policy_number.
+  documented_in_spec: false
+  docs: https://developers.beopen.com/reference/coc
+- name: api_key_sdk
+  type: apiKey
+  in: sdk-initialiser
+  parameters:
+  - apiKey
+  applies_to:
+  - opensdk.load
+  description: >-
+    Open.js is initialised with the partner API key — opensdk.load("YOUR_API_KEY").
+    The optional sandbox flag repoints the library at api.sandbox.beopen.com and
+    the sandbox portal.
+  docs: https://developers.beopen.com/docs/using-openjs
+- name: api_key_query
+  type: apiKey
+  in: query
+  parameters:
+  - key
+  applies_to:
+  - URL Handover
+  - Open.Widget iframe src
+  description: >-
+    The redirect and embed surfaces carry the API key as the `key` query
+    parameter, e.g. https://stage.huddle.com.au/?key=API_KEY&pc=PRODUCT_CODE.
+  docs: https://developers.beopen.com/docs/basic-redirection
+- name: jwt_hs256
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  algorithm: HS256
+  status: deprecated
+  deprecation_note: >-
+    "This feature has been deprecated and should not be used in new
+    implementation!" — verbatim from the docs page.
+  description: >-
+    An HS256 JWT signed with the account secret key unlocks advanced SDK
+    workflows (customer_ref linking, resume-quote). Passed as the authToken
+    option to opensdk.load, or as the `jwt` query parameter on a URL Handover.
+    Payload documented as {"customer_ref": "123"}.
+  docs: https://developers.beopen.com/docs/authenticating-using-jwt
+- name: readme_oidc_mcp
+  type: oauth2
+  scope: documentation MCP endpoint only
+  authorization_servers:
+  - https://dash.readme.com/oidc
+  applies_to:
+  - https://developers.beopen.com/mcp
+  description: >-
+    Third-party. The developer hub's MCP endpoint is protected by ReadMe's own
+    OIDC authorization server, advertised via RFC 9728 metadata at
+    /.well-known/oauth-protected-resource/mcp. This is documentation-platform
+    auth, not Open API auth.
+  first_party: false
+key_management:
+  issuance: Open account manager / sales@beopen.com at partner account creation
+  rotation: not documented
+  self_serve_console: false
+  guidance: >-
+    Docs advise storing keys in a password manager or secrets service, keeping
+    them out of source control, and treating public exposure as an account
+    compromise ("A user might abuse API calls or create insurance quotes on
+    behalf of your account").
+  docs: https://developers.beopen.com/docs/keys
+gaps:
+- The OpenAPI does not declare any securityScheme, so generated clients get no auth wiring.
+- Credentials travel in the request body, which excludes them from standard Authorization-header tooling and proxy redaction.
+- No documented key rotation, expiry or revocation procedure.
+- No OAuth 2.0 / OIDC option for partner or end-user delegated access.

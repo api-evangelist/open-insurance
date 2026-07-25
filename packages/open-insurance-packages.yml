@@ -1,0 +1,58 @@
+generated: '2026-07-25'
+method: searched
+source: https://developers.beopen.com/docs/using-openjs
+note: >-
+  Open ships exactly one first-party client library — Open.js, the browser SDK.
+  It is NOT published to any package registry: the documented distribution is a
+  script tag pointing at a versioned file in Open's S3 bucket, with a download
+  link offered for teams that want to vendor it into their own build. Searches of
+  npm (registry search for "beopen", "opensdk", "open insurance"), PyPI, RubyGems,
+  Packagist, crates.io, pkg.go.dev, NuGet and Maven Central returned no
+  first-party Open Insurance packages. There is no server-side SDK in any
+  language; the single REST operation is called directly over HTTPS.
+packages:
+- language: javascript
+  registry: none
+  distribution: hosted-script
+  name: Open.js (opensdk)
+  version: 1.3.0
+  url: https://opensdk.s3-ap-southeast-2.amazonaws.com/opensdk-1.3.0.min.js
+  docs: https://developers.beopen.com/docs/using-openjs
+  install: '<script type="text/javascript" src="https://opensdk.s3-ap-southeast-2.amazonaws.com/opensdk-1.3.0.min.js"></script>'
+  official: true
+  global: opensdk
+  methods:
+  - opensdk.load
+  - opensdk.quote.prepare
+  - opensdk.quote.portal
+  - opensdk.quote.status
+  - opensdk.quote.history
+  - opensdk.magiclink
+  - opensdk.manage.portal
+  note: >-
+    Browser-only. Initialised with the partner API key; a `sandbox: true` option
+    repoints it at api.sandbox.beopen.com. Also downloadable for inclusion in a
+    partner build process.
+registries_searched:
+- registry: npm
+  query: beopen, opensdk, open insurance
+  result: no first-party package
+- registry: pypi
+  result: no first-party package
+- registry: rubygems
+  result: no first-party package
+- registry: packagist
+  result: no first-party package
+- registry: crates.io
+  result: no first-party package
+- registry: pkg.go.dev
+  result: no first-party package
+- registry: nuget
+  result: no first-party package
+- registry: maven-central
+  result: no first-party package
+- registry: github
+  query: github.com/beopen
+  result: >-
+    Resolves to an unrelated personal account (Alex Plop), not an Open Insurance
+    organisation. No public first-party source repositories found.

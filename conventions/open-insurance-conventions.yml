@@ -1,0 +1,114 @@
+generated: '2026-07-25'
+method: searched
+source: openapi/open-insurance-certificate-of-currency-openapi.json
+docs:
+- https://developers.beopen.com/docs/keys
+- https://developers.beopen.com/docs/errors
+- https://developers.beopen.com/docs/using-openjs
+- https://developers.beopen.com/docs/prepare-a-quote
+note: >-
+  Cross-cutting request/response semantics for the Open Platform, searched from
+  the developer hub and derived from the single published OpenAPI. Open's surface
+  is small enough that several conventions simply do not exist — those are
+  recorded as `supported: false` rather than guessed at.
+authentication:
+  style: api key + secret in the JSON request body (REST); api key in the SDK initialiser and in redirect/embed query strings
+  header: none
+  detail: see authentication/open-insurance-authentication.yml
+idempotency:
+  supported: false
+  header: null
+  detail: >-
+    No Idempotency-Key header, no idempotent-retry contract and no request
+    deduplication is documented anywhere in the developer hub, and the published
+    OpenAPI declares no such parameter. The one public REST operation is a
+    read (POST /v1/policy/coc is a POST-shaped lookup), so replay is comparatively
+    low risk, but write flows (quote preparation, purchase) run through the SDK and
+    the hosted journey with no published idempotency semantics. NO Idempotency
+    pointer is emitted in apis.yml because Open does not support it.
+pagination:
+  supported: false
+  detail: >-
+    No collection endpoint is published, so no pagination convention exists.
+    opensdk.quote.history is a client-side, in-memory array of
+    productCode/quoteRef pairs that is cleared on page reload — not a server-side
+    paged collection.
+filtering_and_expansion:
+  supported: false
+  detail: >-
+    The only optional request field is `format` on the Certificate of Currency
+    call (JSON, default, or pdf). No sparse fieldsets, no field expansion.
+content_negotiation:
+  request_media_type: application/json
+  response_media_types:
+  - application/json
+  - application/pdf
+  mechanism: >-
+    Response format is selected with a `format` field in the request BODY, not
+    with an Accept header.
+partner_reference:
+  field: quoteRef
+  detail: >-
+    An optional partner-supplied quote reference on opensdk.quote.prepare that
+    ties a customer's journey to the partner's own cart or checkout process. It
+    is the nearest thing Open has to a correlation identifier and is echoed back
+    in opensdk.quote.history and used to poll opensdk.quote.status.
+  customer_reference:
+    field: customer_ref
+    transport: HS256 JWT payload
+    status: deprecated
+request_tracing:
+  request_id_header: null
+  supported: false
+  detail: No request-id, correlation-id or trace header is documented or returned.
+versioning:
+  scheme: uri-path
+  current: v1
+  detail: >-
+    The single REST path is /v1/policy/coc. The OpenAPI info.version is literally
+    "unknown". Open.js is versioned in its filename (opensdk-1.3.0.min.js) and a
+    partner pins a version by pinning the script URL.
+  header_versioning: false
+  date_versioning: false
+error_envelope:
+  format: http-status + free-text body
+  problem_json: false
+  detail: >-
+    See errors/open-insurance-problem-types.yml. The documented 403 body is the
+    plain string "Attempt Logged.  Access denied."; the docs publish an HTTP
+    status table with no error code registry.
+rate_limiting:
+  documented: false
+  headers: []
+  detail: >-
+    No published quota, throttle or 429 handling. 429 does not appear in the
+    error-code table.
+polling:
+  supported: true
+  detail: >-
+    Because there is no webhook or event surface, quote progress is polled:
+    opensdk.quote.status(productCode, quoteRef) resolves to
+    {purchased, expired, policy_slug}. Docs explicitly recommend polling to keep
+    partner UI in sync with the customer's position in the hosted journey. No
+    recommended polling interval or backoff is published.
+webhooks:
+  supported: false
+  detail: No callback registration, event catalog, signature scheme or AsyncAPI is published.
+environments:
+  separation: per-environment key pairs (sandbox / production)
+  detail: see sandbox/open-insurance-sandbox.yml
+date_and_money:
+  dates: 'YYYY-MM-DD for inputs (dob, start_date); response timestamps use the non-standard form 2021-10-20T15:59:21Z+1100'
+  currency_field: policy_currency (e.g. AUD)
+  amounts: >-
+    Mixed typing — premium, sum_insured and base_excess are strings on the car
+    shape but integers on the home shape's nested home/contents objects.
+  frequency_codes:
+    M: Monthly
+    U: Upfront/Yearly
+related:
+- authentication/open-insurance-authentication.yml
+- errors/open-insurance-problem-types.yml
+- lifecycle/open-insurance-lifecycle.yml
+- sandbox/open-insurance-sandbox.yml
+- data-model/open-insurance-data-model.yml

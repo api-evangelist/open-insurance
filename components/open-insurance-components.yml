@@ -1,0 +1,90 @@
+generated: '2026-07-25'
+method: searched
+source: https://developers.beopen.com/docs/welcome
+docs:
+- https://developers.beopen.com/docs/embedded-widget
+- https://developers.beopen.com/docs/embedding-the-widget
+- https://developers.beopen.com/docs/configuring-the-widget
+- https://developers.beopen.com/docs/url-handover
+- https://developers.beopen.com/docs/domain-white-labelling
+note: >-
+  Client-side and hosted surfaces are the CORE of Open's product, not an
+  accessory to a REST API — the entire quote-to-bind journey is delivered as
+  embeddable/redirectable UI rather than as API operations. Three integration
+  families are documented, in ascending order of effort.
+families:
+- name: Open.Widget
+  kind: iframe embed
+  description: >-
+    A configurable insurance widget dropped into a partner page with an iframe.
+    Renders Open's insurance content and hands the customer into the quote flow.
+  loader: none (iframe src)
+  hosts:
+    production: https://embedded.beopen.com
+    sandbox: https://embedded.sandbox.beopen.com
+  parameters:
+  - name: template
+    required: true
+    description: Which insurance content/template to render (e.g. home-insurance)
+  - name: key
+    required: true
+    description: Partner API key
+  - name: pc
+    description: Product code
+  example: '<iframe src="https://embedded.sandbox.beopen.com?template=home-insurance&key=API_KEY&pc=hudhome" height="650" width="700"></iframe>'
+  docs:
+  - https://developers.beopen.com/docs/embedded-widget
+  - https://developers.beopen.com/docs/embedding-the-widget
+  - https://developers.beopen.com/docs/configuring-the-widget
+- name: Open.js
+  kind: browser JavaScript library
+  description: >-
+    Programmatic control of the embedded experience — prepare and pre-fill a
+    quote, poll its status, and redirect the customer to the hosted portal or
+    policy-management surface.
+  loader: https://opensdk.s3-ap-southeast-2.amazonaws.com/opensdk-1.3.0.min.js
+  global: opensdk
+  surfaces:
+  - opensdk.quote.portal — open the Open Portal at the selected product's quote flow
+  - opensdk.manage.portal — send an authenticated customer to policy management
+  - opensdk.magiclink — email the customer a login link (DEPRECATED)
+  docs: https://developers.beopen.com/docs/openjs
+  packages: packages/open-insurance-packages.yml
+- name: URL Handover
+  kind: redirect
+  description: >-
+    The lowest-effort integration — a plain link to Open's hosted journey with
+    the partner key and product code as query parameters. No JavaScript required.
+  pattern: https://huddle.com.au/?key=API_KEY&pc=PRODUCT_CODE
+  sandbox_pattern: https://stage.huddle.com.au/?key=API_KEY&pc=PRODUCT_CODE
+  optional_parameters:
+  - name: jwt
+    description: HS256 token linking the customer (DEPRECATED)
+  docs:
+  - https://developers.beopen.com/docs/url-handover
+  - https://developers.beopen.com/docs/basic-redirection
+- name: Open-hosted portal (white-labelled)
+  kind: hosted surface
+  description: >-
+    The quote, buy, manage and claim journey itself, hosted by Open and optionally
+    served from the partner's own domain so the experience appears fully branded.
+  hosts:
+    quote_portal: https://portal.beopen.com
+    policy_portal: https://insurance.beopen.com
+  white_labelling:
+    supported: true
+    mechanism: partner-owned domain mapped to the Open-hosted environment
+    docs: https://developers.beopen.com/docs/domain-white-labelling
+- name: In-chat AI components
+  kind: claimed / undocumented
+  description: >-
+    Marketing describes configurable in-chat experiences for AI assistants — a
+    single branded product, or a comparison panel — that hand a customer over into
+    a pre-filled quote. No component names, embed instructions or configuration
+    reference are published.
+  docs: https://www.beopen.com/solutions/ai-platform-integration
+  published: false
+related:
+- packages/open-insurance-packages.yml
+- sandbox/open-insurance-sandbox.yml
+- mcp/open-insurance-mcp.yml

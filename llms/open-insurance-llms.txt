@@ -1,0 +1,20 @@
+# Developer Documentation Documentation
+
+> Businesses of all sizes use Open's infrastructure and APIs to offer cover, pay claims, and manage their car, home and travel insurance business online.
+
+## Guides
+- [Welcome](https://developers.beopen.com/docs/welcome.md): Simple solutions for integrating insurance experiences into your app or website
+- [Open.js (Huddle)](https://developers.beopen.com/docs/openjs-huddle.md): Offer customers Huddle insurance products and experiences.
+- [Open.js (Whitelabel)](https://developers.beopen.com/docs/openjs-whitelabel.md): Seamlessly offer fully-branded insurance products and experiences.
+- [Overview](https://developers.beopen.com/docs/overview.md): Use the sandbox environment to quickly develop and test your app.
+- [Sample test site](https://developers.beopen.com/docs/web-app.md)
+- [Domain white-labelling](https://developers.beopen.com/docs/domain-white-labelling.md): White-label the Open-hosted environment domain used for quoting, buying, managing and claiming.
+- [Install Open.js](https://developers.beopen.com/docs/using-openjs.md): Including the library into your web app
+- [Prepare a quote](https://developers.beopen.com/docs/prepare-a-quote.md): ​This method creates a quote in Open's platform, which can be prepopulated with customer data by using the details object properties.​
+- [Redirect to portal](https://developers.beopen.com/docs/redirect-to-portal.md): A helper function that will open the Open Portal with the required parameters to load up the selected products quote flow.
+- [Request a magic link](https://developers.beopen.com/docs/request-a-magic-link.md): This SDK function will request a magic link from our backend that is emailed to the requested customer, allowing them to log in.
+- [Authenticating using JWT](https://developers.beopen.com/docs/authenticating-using-jwt.md): An advanced feature that can be used to create a better customer experience.
+- [Basic usage](https://developers.beopen.com/docs/embedding-the-widget.md): Learn the complete details of embedding a widget to a web page.
+- [Advanced configuration](https://developers.beopen.com/docs/configuring-the-widget.md): Customize your widget’s behaviour and the insurance content it displays
+- [Basic redirection](https://developers.beopen.com/docs/basic-redirection.md): Learn the basics of implementing a URL Handover.
+- [Link your customer](https://developers.beopen.com/docs/link-your-customer.md): Use the advanced features and link your customer

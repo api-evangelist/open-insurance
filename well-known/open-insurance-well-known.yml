@@ -1,0 +1,80 @@
+generated: '2026-07-25'
+method: searched
+source: live probes of the Open API, docs and website hosts
+note: >-
+  Open publishes almost no /.well-known/ discovery surface. The single 200 is the
+  RFC 9728 OAuth protected-resource descriptor for the ReadMe-hosted documentation
+  MCP endpoint at https://developers.beopen.com/mcp — it names ReadMe's own
+  authorization server (https://dash.readme.com/oidc), not an Open-operated one.
+  No security.txt, no OpenID/OAuth metadata and no api-catalog are served on any
+  host. The sandbox host api.sandbox.beopen.com does not answer at all (connection
+  failure, recorded as status 000).
+hosts:
+- host: https://api.beopen.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://api.sandbox.beopen.com
+  note: declared in the OpenAPI servers[] block; host does not answer
+  documents:
+  - path: /openapi.json
+    status: 000
+  - path: /v1/policy/coc
+    status: 000
+- host: https://developers.beopen.com
+  documents:
+  - path: /.well-known/oauth-protected-resource/mcp
+    status: 200
+    file: open-insurance-oauth-protected-resource-mcp.json
+    spec: RFC 9728 OAuth 2.0 Protected Resource Metadata
+    note: >-
+      Returns {"resource":"https://developers.beopen.com/mcp",
+      "authorization_servers":["https://dash.readme.com/oidc"]} — the docs-platform
+      MCP endpoint, gated by ReadMe's OIDC provider.
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/oauth-authorization-server/mcp
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /llms.txt
+    status: 200
+    file: ../llms/open-insurance-llms.txt
+  - path: /llms-full.txt
+    status: 404
+- host: https://www.beopen.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /llms.txt
+    status: 404
+related:
+- authorization_server: https://dash.readme.com/oidc
+  discovery: https://dash.readme.com/oidc/.well-known/openid-configuration
+  status: 200
+  note: >-
+    Third-party (ReadMe) authorization server referenced by Open's MCP
+    protected-resource metadata. Not operated by Open and not used by the
+    Certificate of Currency REST API, which authenticates with an
+    api_key / api_secret pair in the JSON request body.
+security_txt:
+  published: false
+  note: No RFC 9116 security.txt on beopen.com, www.beopen.com, api.beopen.com or developers.beopen.com.

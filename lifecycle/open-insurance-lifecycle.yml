@@ -1,0 +1,90 @@
+generated: '2026-07-25'
+method: searched
+source: https://developers.beopen.com/docs/check-service-status
+note: >-
+  Open publishes a machine-readable service-status feed and marks individual
+  features deprecated in the docs, but publishes NO deprecation policy, NO
+  versioning policy, NO changelog and NO SLA. Recorded as found.
+versioning:
+  scheme: uri-path
+  current: v1
+  docs: https://developers.beopen.com/reference/coc
+  policy_published: false
+  spec_version: >-
+    The published OpenAPI carries info.version "unknown" — the definition itself
+    is unversioned.
+  sdk:
+    artifact: Open.js
+    current: 1.3.0
+    pinning: >-
+      A partner pins a version by pinning the script URL
+      (https://opensdk.s3-ap-southeast-2.amazonaws.com/opensdk-1.3.0.min.js). No
+      "latest" alias or release feed is published.
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  note: >-
+    No RFC 8594 Sunset support, no deprecation window, no migration guarantee is
+    published. Deprecation is communicated only as bold prose on the affected
+    docs page. No `Deprecation` pointer is emitted in apis.yml because there is
+    no deprecation policy to point at.
+  deprecated_features:
+  - feature: Authenticating using JWT (HS256 authToken)
+    url: https://developers.beopen.com/docs/authenticating-using-jwt
+    statement: 'This feature has been deprecated and should not be used in new implementation!'
+    replacement: not published
+  - feature: opensdk.magiclink
+    url: https://developers.beopen.com/docs/request-a-magic-link
+    statement: 'This feature has been deprecated and should not be used in new implementation!'
+    replacement: not published
+  deprecated_operations: []
+  deprecated_operations_note: >-
+    The one OpenAPI operation (coc) explicitly declares "deprecated": false.
+status_page:
+  url: https://healthchecks.io/badge/bcf36e8b-9e05-4212-99b5-8d77c3/5rM6E456/open-platform.json
+  badge: https://healthchecks.io/badge/bcf36e8b-9e05-4212-99b5-8d77c3/5rM6E456/open-platform.svg
+  docs: https://developers.beopen.com/docs/check-service-status
+  provider: healthchecks.io
+  machine_readable: true
+  probe:
+    status: 200
+    body: '{"status": "up"}'
+    date: '2026-07-25'
+  shape:
+    status: up | down
+    total: number of monitored services (4 at time of capture)
+    grace: checks currently in their grace period
+    down: number of services down
+  gaps:
+  - No hosted status dashboard, incident history or subscribe/notify surface — only a badge JSON.
+  - No component-level breakdown; the four monitored services are not named.
+sla:
+  url: null
+  uptime_target: null
+  published: false
+  note: >-
+    No public SLA or uptime commitment. Commercial terms are partner contracts
+    negotiated through sales.
+changelog:
+  url: null
+  published: false
+  note: >-
+    The ReadMe hub exposes no /changelog (404) and no release feed. The corporate
+    research/blog surface at https://www.beopen.com/research is editorial, not a
+    product changelog.
+roadmap:
+  url: null
+  published: false
+  note: >-
+    "Global Product Graph — Coming soon" is signposted in site navigation, but no
+    dated roadmap is published.
+support:
+  developer_contact: sales@beopen.com (key issuance), help@beopen.com (customer support)
+  complaints: complaints@au.beopen.com
+  external_dispute_resolution: https://afca.org.au
+  channel: https://www.beopen.com/contact
+related:
+- conventions/open-insurance-conventions.yml
+- security/open-insurance-domain-security.yml

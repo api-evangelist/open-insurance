@@ -56,6 +56,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/open-insurance-certificate-of-currency-openapi.json
+  - type: Overlay
+    url: overlays/open-insurance-certificate-of-currency-overlay.yaml
   - type: APIReference
     url: https://developers.beopen.com/reference/coc
   - type: Documentation
@@ -109,6 +111,10 @@ apis:
   - type: Documentation
     url: https://developers.beopen.com/docs/domain-white-labelling
 common:
+- type: DomainSecurity
+  url: security/open-insurance-domain-security.yml
+- type: AgenticAccess
+  url: agentic-access/open-insurance-agentic-access.yml
 - type: Website
   url: https://www.beopen.com/
 - type: Documentation
@@ -131,6 +137,54 @@ common:
   url: https://www.beopen.com/terms/australia
 - type: LinkedIn
   url: https://www.linkedin.com/company/beopen
+- type: DeveloperPortal
+  url: https://developers.beopen.com/docs/welcome
+- type: GettingStarted
+  url: https://developers.beopen.com/docs/using-openjs
+- type: Support
+  url: https://www.beopen.com/contact
+- type: Blog
+  url: https://www.beopen.com/research
+- type: PrivacyPolicy
+  url: https://www.beopen.com/terms/australia
+- type: Login
+  url: https://insurance.beopen.com/
+- type: StatusPage
+  url: https://developers.beopen.com/docs/check-service-status
+- type: Compliance
+  url: https://www.beopen.com/terms/australia
+- type: Authentication
+  url: authentication/open-insurance-authentication.yml
+- type: Conventions
+  url: conventions/open-insurance-conventions.yml
+- type: ErrorCatalog
+  url: errors/open-insurance-problem-types.yml
+- type: DeclineCodes
+  url: errors/open-insurance-decline-codes.yml
+- type: Lifecycle
+  url: lifecycle/open-insurance-lifecycle.yml
+- type: Conformance
+  url: conformance/open-insurance-conformance.yml
+- type: Sandbox
+  url: sandbox/open-insurance-sandbox.yml
+- type: Components
+  url: components/open-insurance-components.yml
+- type: DataModel
+  url: data-model/open-insurance-data-model.yml
+- type: Packages
+  url: packages/open-insurance-packages.yml
+- type: SDKs
+  url: packages/open-insurance-packages.yml
+- type: WellKnown
+  url: well-known/open-insurance-well-known.yml
+- type: MCPServer
+  url: mcp/open-insurance-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/open-insurance-tool-crosswalk.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/open-insurance-llms.txt
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

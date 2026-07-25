@@ -1,0 +1,99 @@
+generated: '2026-07-25'
+method: searched
+source: openapi/open-insurance-certificate-of-currency-openapi.json
+docs: https://developers.beopen.com/docs/errors
+format: http-status
+format_note: >-
+  Open does NOT use RFC 9457 problem+json. The published error contract is the
+  bare HTTP status code plus, for the one documented REST operation, a
+  text/plain body. There is no error code registry, no machine-readable error
+  envelope and no application/problem+json media type anywhere in the spec or
+  the docs.
+envelope:
+  media_type: text/plain
+  shape: >-
+    Free-text string. The only documented example is "Attempt Logged.  Access
+    denied." returned with HTTP 403.
+  fields: []
+problems:
+- status: 200
+  title: OK
+  description: Your request was completed successfully.
+  source: https://developers.beopen.com/docs/errors
+- status: 201
+  title: Created
+  description: Resource created successfully.
+  source: https://developers.beopen.com/docs/errors
+- status: 204
+  title: No Content
+  description: Returned on a successful DELETE.
+  source: https://developers.beopen.com/docs/errors
+- status: 401
+  title: Unauthorized
+  description: Enter valid credentials to continue.
+  remediation: >-
+    Check the api_key / api_secret pair for the environment you are calling
+    (sandbox keys do not work against production).
+  source: https://developers.beopen.com/docs/errors
+- status: 403
+  title: Forbidden
+  description: Access to the requested resource is denied.
+  body_example: 'Attempt Logged.  Access denied.'
+  remediation: >-
+    The credentials are recognised but not entitled to the policy requested, or
+    the attempt was rejected and logged. Contact your Open account manager.
+  source_operation: openapi/open-insurance-certificate-of-currency-openapi.json#coc
+  source: https://developers.beopen.com/reference/coc
+- status: 405
+  title: Method Not Allowed
+  description: >-
+    The method you supplied is not allowed for that resource, for example a PUT
+    method on a read-only resource.
+  remediation: >-
+    /v1/policy/coc is POST-only; a GET against the production host returns 405.
+  source: https://developers.beopen.com/docs/errors
+- status: 413
+  title: Request Entity Too Large
+  description: The request body is too large or the GET request count parameter is too large.
+  source: https://developers.beopen.com/docs/errors
+- status: 422
+  title: Velocity rules violation or non-sufficient funds
+  description: Unprocessable entity.
+  note: >-
+    Open documents 422 with a payments meaning — velocity rules or insufficient
+    funds — which lines up with the card decline codes captured in
+    errors/open-insurance-decline-codes.yml.
+  source: https://developers.beopen.com/docs/errors
+- status: 500
+  title: Internal Server Error
+  description: An error occurred that could not be handled by the application.
+  source: https://developers.beopen.com/docs/errors
+- status: 502
+  title: Bad Gateway
+  description: An invalid response was received by the server.
+  source: https://developers.beopen.com/docs/errors
+- status: 503
+  title: Service Unavailable
+  description: The server is temporarily unable to handle this request.
+  remediation: >-
+    Check the platform status feed at
+    https://healthchecks.io/badge/bcf36e8b-9e05-4212-99b5-8d77c3/5rM6E456/open-platform.json
+  source: https://developers.beopen.com/docs/errors
+- status: 504
+  title: Gateway Timeout
+  description: The server timed out while attempting to complete this request.
+  source: https://developers.beopen.com/docs/errors
+spec_coverage:
+  operations: 1
+  documented_responses:
+  - operationId: coc
+    responses:
+    - 200
+    - 403
+  gaps:
+  - The spec declares only 200 and 403; the docs table lists nine other statuses that the spec never models.
+  - No error schema is defined in components; the 403 response is typed text/plain with an example only.
+  - No error codes, no correlation/request id, and no retry guidance are published.
+related:
+- errors/open-insurance-decline-codes.yml
+- conventions/open-insurance-conventions.yml

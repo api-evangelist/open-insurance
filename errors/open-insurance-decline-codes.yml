@@ -1,0 +1,79 @@
+generated: '2026-07-25'
+method: searched
+source: https://developers.beopen.com/docs/test-data
+note: >-
+  Open takes card payment for premiums inside its hosted purchase journey, and
+  its testing documentation publishes a decline-code table with a `decline_code`
+  attribute — the same vocabulary the card-processing layer emits. These are the
+  values a partner can force in the sandbox with the listed test cards; Open does
+  NOT publish a full production decline-code registry, so this is the documented
+  subset, verbatim. Card declines are surfaced to the customer inside Open's
+  hosted journey, not returned over the one public REST operation.
+envelope:
+  field: decline_code
+  accompanying_status: card_declined
+  documented_http_status: 422
+  documented_http_meaning: Velocity rules violation or non-sufficient funds
+  surface: >-
+    Open-hosted (optionally white-labelled) purchase journey — portal.beopen.com /
+    insurance.beopen.com. Not exposed on /v1/policy/coc.
+decline_codes:
+- code: card_declined
+  meaning: Generic card decline with no more specific reason published.
+  action: Ask the customer for another payment method.
+  test_card: '4000 0000 0000 0002'
+- code: insufficient_funds
+  meaning: The card has insufficient funds to cover the premium payment.
+  action: >-
+    Ask the customer to use another card, or offer monthly rather than upfront
+    payment frequency.
+  test_card: '4000 0000 0000 9995'
+- code: lost_card
+  meaning: The card has been reported lost.
+  action: >-
+    Do not reveal the reason to the customer. Ask for an alternative payment
+    method.
+  masked_to_buyer: true
+  test_card: '4000 0000 0000 9987'
+- code: stolen_card
+  meaning: The card has been reported stolen.
+  action: >-
+    Do not reveal the reason to the customer. Ask for an alternative payment
+    method.
+  masked_to_buyer: true
+  test_card: '4000 0000 0000 9979'
+- code: expired_card
+  meaning: The card expiry date has passed.
+  action: Ask the customer to re-enter the card with a valid expiry date.
+  test_card: '4000 0000 0000 0069'
+- code: incorrect_CVC
+  meaning: The CVC supplied did not match the card.
+  action: >-
+    Ask the customer to re-enter the CVC. Note the docs state verification checks
+    only run when the required information is provided — cvc_check only fails when
+    a CVC is supplied.
+  test_card: '4000 0000 0000 0127'
+- code: processing_error
+  meaning: An error occurred while processing the card.
+  action: Retry the payment; if it repeats, ask for an alternative payment method.
+  test_card: '4000 0000 0000 0119'
+verification_checks:
+- name: cvc_check
+  note: >-
+    Documented as only running when a CVC is provided; forced to fail with test
+    card 4000 0000 0000 0127.
+successful_test_cards:
+- number: '4000 0003 6000 0006'
+  brand: Visa (AUS)
+  note: Australian test card - charges AUD
+- number: '4242 4242 4242 4242'
+  brand: Visa (US)
+- number: '4000 0566 5566 5556'
+  brand: Visa (debit)
+- number: '5555 5555 5555 4444'
+  brand: Mastercard
+- number: '5200 8282 8282 8210'
+  brand: Mastercard (debit)
+related:
+- errors/open-insurance-problem-types.yml
+- sandbox/open-insurance-sandbox.yml

@@ -1,0 +1,216 @@
+generated: '2026-07-25'
+method: searched
+source: openapi/open-insurance-certificate-of-currency-openapi.json
+docs:
+- https://developers.beopen.com/docs/prepare-a-quote
+- https://developers.beopen.com/reference/coc
+note: >-
+  Derived from the one published OpenAPI (the Certificate of Currency response
+  shapes) and enriched from the Open.js quote-preparation reference, which
+  documents the pre-fill contract per product line. Open publishes no
+  components.schemas — the CoC response is an inline oneOf of two anonymous
+  product shapes — so entity names below are OUR labels for the shapes Open
+  actually returns, not Open-declared type names. There is no object reference,
+  no id-prefix scheme and no read endpoint for any entity other than the
+  certificate.
+entities:
+- name: Quote
+  source: opensdk.quote.prepare / opensdk.quote.status
+  identifiers:
+  - field: quote_ref
+    description: >-
+      Partner-supplied (or Open-returned) reference tying the customer journey to
+      the partner's cart or checkout. Echoed in opensdk.quote.history.
+  - field: product_code
+    description: >-
+      Identifies the product a quote belongs to; issued per partner account
+      (examples in docs: hud-compare-car, hudhome).
+  fields:
+  - purchased (boolean)
+  - expired (boolean)
+  - policy_slug (string, present once purchased)
+  note: >-
+    The only server-readable quote state is the three-field status object. Price,
+    premium and cover detail are never returned to the partner — they render
+    inside Open's hosted journey.
+- name: PolicyHolder
+  source: docs quote properties (all product lines)
+  fields:
+  - policy_holder_given_name
+  - policy_holder_last_name
+  - policy_holder_dob (YYYY-MM-DD)
+  - policy_holder_gender (male | female)
+  - policy_holder_email
+  - policy_holder_mobile
+  - policy_holder_licence_type (car)
+  - policy_holder_licence_age (car)
+  legacy_shape:
+    note: The legacy home shape nests policy_holder with first_name/last_name/gender/dob/is_resident/is_primary
+- name: RiskAddress
+  source: docs quote properties
+  fields:
+  - risk_address (single-line string, e.g. "2 MARKET ST, SYDNEY NSW 2000")
+  legacy_shape:
+    note: >-
+      The legacy home shape takes a structured address object —
+      unit_number, level_number, street_number, street_name, suburb, state, postcode.
+  semantics: >-
+    Overnight parking address for car, building address for home, policy-holder
+    address for travel. Drives the underwriting accept/decline outcome (see the
+    sample risk addresses in sandbox/).
+- name: CoverTerms
+  source: docs quote properties (common)
+  fields:
+  - start_date (YYYY-MM-DD)
+  - frequency (M = Monthly, U = Upfront/Yearly)
+  - excess
+  - cover_type
+  - cover_level
+  - has_previous_insurance
+- name: Vehicle
+  product: car (Australia)
+  fields:
+  - vehicle
+  - kms_estimated
+  - exclude_under_25
+  - finance_type
+  - finance_provider
+- name: Dwelling
+  product: home (Australia, legacy)
+  fields:
+  - building_type
+  - building_value
+  - building_excess
+  - contents_value
+  - contents_excess
+  - construction_type
+  - construction_year
+  - roof_type
+  - occupier_type
+- name: Trip
+  product: travel (Australia)
+  fields:
+  - travel_destination (list of ISO 3166-1 alpha-3 codes)
+  - trip_start_date (YYYY-MM-DD)
+  - trip_end_date (YYYY-MM-DD)
+- name: Device
+  product: mobile (United Kingdom)
+  fields:
+  - device (e.g. apple_iphone_14_64gb)
+  - device_date_of_purchase (YYYY-MM-DD)
+  - device_imei
+- name: Policy
+  source: quote status policy_slug; CoC request policy_number
+  identifiers:
+  - field: policy_number
+    examples:
+    - HMCP00001568
+    - PECP00000001
+    - PEHXC0000001
+    note: >-
+      Prefixed alphanumeric. Open publishes no prefix legend; the examples suggest
+      a product/brand prefix (PECP car, PEHXC home) but this is NOT documented and
+      must not be relied on.
+  - field: policy_slug
+    note: Returned by opensdk.quote.status once the quote is purchased.
+- name: CertificateOfCurrency
+  source: openapi#coc 200 response (oneOf)
+  variants:
+  - name: Car insurance certificate
+    fields:
+    - timestamp
+    - premium (string)
+    - policy_currency
+    - policy_number
+    - policy_issued_date
+    - policy_effective_from
+    - policy_expires_on
+    - policy (product name, e.g. "Comprehensive - Pay As You Drive")
+    - policy_holders[] (last_name, given_name, dob)
+    - address
+    - financial_interest
+    - vehicle
+    - vehilce_rego
+    - sum_insured (string)
+    - base_excess (string)
+    note: >-
+      The response field is spelled `vehilce_rego` in Open's published schema and
+      examples — a typo in the contract, preserved here verbatim.
+  - name: Home insurance certificate
+    fields:
+    - timestamp
+    - premium (string)
+    - policy_currency
+    - policy_number
+    - policy_issued_date
+    - policy_effective_from
+    - policy_expires_on
+    - policy
+    - policy_holders[] (last_name, given_name, dob)
+    - address
+    - financial_interest
+    - landlord (untyped/null in the schema)
+    - home {sum_insured (int), base_excess (int)}
+    - contents {sum_insured (int), base_excess (int)}
+- name: FinancialInterest
+  source: CoC response field financial_interest
+  note: >-
+    A free-text noted party (e.g. "Example Car Finance"). This is the field that
+    makes the CoC useful to lenders and lessors.
+relationships:
+- from: Quote
+  to: PolicyHolder
+  type: has_one
+  via: quote.policy_holder_* pre-fill fields
+- from: Quote
+  to: RiskAddress
+  type: has_one
+  via: quote.risk_address
+- from: Quote
+  to: Vehicle
+  type: has_one
+  via: quote.vehicle
+  condition: product = car
+- from: Quote
+  to: Dwelling
+  type: has_one
+  via: quote.dwelling
+  condition: product = home (legacy shape)
+- from: Quote
+  to: Trip
+  type: has_one
+  via: quote.trip_start_date / trip_end_date / travel_destination
+  condition: product = travel
+- from: Quote
+  to: Device
+  type: has_one
+  via: quote.device
+  condition: product = mobile (UK)
+- from: Quote
+  to: Policy
+  type: has_one
+  via: policy_slug (populated after purchase)
+- from: Policy
+  to: CertificateOfCurrency
+  type: has_many
+  via: policy_number (request field on POST /v1/policy/coc)
+- from: CertificateOfCurrency
+  to: PolicyHolder
+  type: has_many
+  via: policy_holders[]
+- from: CertificateOfCurrency
+  to: FinancialInterest
+  type: has_one
+  via: financial_interest
+- from: Partner
+  to: Quote
+  type: has_many
+  via: api_key + product_code
+gaps:
+- No components.schemas in the published spec — every shape is inline and anonymous.
+- No documented id format or prefix legend for policy_number / policy_slug / quote_ref.
+- Premium and sum-insured are typed as strings in the car shape and integers in the home shape.
+- No list/read operations for Quote, Policy, Claim or Customer; the entity graph is inferred from a single read plus SDK inputs.
+related:
+- conventions/open-insurance-conventions.yml
+- openapi/open-insurance-certificate-of-currency-openapi.json

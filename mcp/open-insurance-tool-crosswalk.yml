@@ -1,0 +1,86 @@
+generated: '2026-07-25'
+method: derived
+source: mcp/open-insurance-mcp.yml + openapi/open-insurance-certificate-of-currency-openapi.json
+note: >-
+  Open's agent-facing and machine-readable surfaces barely overlap, and the
+  crosswalk is mostly a record of that divergence rather than a mapping. The one
+  live MCP endpoint is the ReadMe documentation server, whose tools/list is
+  auth-gated (HTTP 401), so no tool names could be enumerated. The MCP product
+  Open markets ("native MCP" for ChatGPT/Claude with live pricing) publishes no
+  server, tools or schemas at all. Meanwhile the only public REST operation is a
+  single Certificate of Currency lookup, and the commercially important verbs —
+  quote, bind, issue, manage, claim — are not REST operations at all: they run
+  through the Open.js browser SDK and Open's hosted portal. Nothing below is
+  inferred beyond what is published.
+surfaces:
+  openapi:
+    file: openapi/open-insurance-certificate-of-currency-openapi.json
+    operations: 1
+    servers:
+    - https://api.sandbox.beopen.com
+    production_host: https://api.beopen.com
+    gated: false
+    note: Spec is public; calling it requires partner-issued api_key / api_secret.
+  graphql:
+    endpoint: null
+    published: false
+  mcp:
+    url: https://developers.beopen.com/mcp
+    gated: true
+    gate: 'HTTP 401 -32001 Authorization required; OAuth via https://dash.readme.com/oidc'
+    kind: documentation-search server provisioned by the ReadMe hub
+  mcp_product_claim:
+    url: null
+    gated: true
+    note: Marketed as native MCP; no server URL, tool list or schema published.
+  sdk:
+    file: packages/open-insurance-packages.yml
+    kind: browser JavaScript (Open.js 1.3.0)
+    note: >-
+      Not a tool surface an agent can call server-side; it drives a browser
+      journey and a hosted portal handover.
+crosswalk: []
+crosswalk_note: >-
+  No published MCP tool can be bound to a REST operationId, because no MCP tool
+  names are published on either server. Left empty rather than invented.
+mcp_only:
+- tool: unknown (documentation search tools)
+  reason: >-
+    developers.beopen.com/mcp is a ReadMe docs MCP server; its tools operate over
+    the documentation corpus, not over Open's insurance APIs. tools/list returned
+    401 so the names are unknown.
+- tool: unknown (product / pricing tools)
+  reason: >-
+    Open's marketed "native MCP" surface for AI assistants would expose product
+    catalogue, live pricing and quote handover — capabilities with NO public REST
+    operation behind them. Nothing is published to name or bind.
+rest_only:
+- capability: Policy certificate retrieval
+  operations:
+  - operationId: coc
+    method: post
+    path: /v1/policy/coc
+    summary: Retrieve a Certificate of Currency
+    reason_no_tool: No MCP server publishes a tool for it.
+sdk_only:
+- capability: Quote preparation and polling
+  methods:
+  - opensdk.quote.prepare
+  - opensdk.quote.status
+  - opensdk.quote.history
+  reason: Browser SDK only; no equivalent REST operation is documented.
+- capability: Portal handover, policy management, claims
+  methods:
+  - opensdk.quote.portal
+  - opensdk.manage.portal
+  - opensdk.magiclink
+  reason: >-
+    Bind, issue, servicing and claims happen inside Open's hosted (optionally
+    white-labelled) journey, not over an API.
+coverage:
+  mcp_tools_named: 0
+  mcp_tools_bound: 0
+  mcp_only: 2
+  rest_operations_total: 1
+  rest_operations_with_tool: 0
+  sdk_methods_documented: 7

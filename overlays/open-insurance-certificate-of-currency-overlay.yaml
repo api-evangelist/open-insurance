@@ -1,0 +1,114 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Open Certificate of Currency API
+  version: 1.0.0
+x-generated: '2026-07-25'
+x-method: generated
+x-source: openapi/open-insurance-certificate-of-currency-openapi.json
+x-note: >-
+  Our enhancements to Open's published OpenAPI. The harvested definition is left
+  untouched. Every action below either records what the docs state but the spec
+  omits (the credential model, the production host, the documented error
+  statuses) or annotates a real defect in the contract (info.version "unknown",
+  the vehilce_rego typo). Nothing here invents an operation or a field.
+extends: openapi/open-insurance-certificate-of-currency-openapi.json
+actions:
+- target: $.info
+  description: Identify the definition and record that the publisher versions it as "unknown".
+  update:
+    x-apievangelist-provider: open-insurance
+    x-apievangelist-review: review.yml
+    x-apievangelist-note: >-
+      Published by Open via its ReadMe developer hub at
+      https://developers.beopen.com/reference/coc. info.version is literally
+      "unknown" upstream; there is no versioned release of this definition.
+    x-apievangelist-artifacts:
+    - authentication/open-insurance-authentication.yml
+    - conventions/open-insurance-conventions.yml
+    - errors/open-insurance-problem-types.yml
+    - data-model/open-insurance-data-model.yml
+    - sandbox/open-insurance-sandbox.yml
+- target: $.servers
+  description: >-
+    The spec declares only the sandbox host. The production host answers the same
+    path (GET returns 405, confirming a live POST-only endpoint) and is where a
+    partner with production keys actually calls.
+  update:
+  - url: https://api.beopen.com
+    description: Production (verified live 2026-07-25; GET /v1/policy/coc returns 405)
+    x-apievangelist-added: true
+- target: $.components.securitySchemes
+  description: >-
+    Upstream declares an EMPTY securitySchemes object, so generated clients get no
+    auth wiring at all. Record the real, documented credential model — an api_key /
+    api_secret pair carried in the JSON request body, issued by Open at partner
+    account creation.
+  update:
+    x-apievangelist-documented-auth:
+      style: apiKey pair in request body
+      fields:
+      - api_key
+      - api_secret
+      issuance: Open account manager / sales@beopen.com
+      self_serve: false
+      docs: https://developers.beopen.com/docs/keys
+      note: >-
+        Not expressible as a standard OpenAPI securityScheme because the
+        credentials travel in the body rather than a header, query or cookie.
+- target: $.paths['/v1/policy/coc'].post
+  description: Tag, describe and classify the single operation.
+  update:
+    tags:
+    - Policy
+    description: >-
+      Retrieve a Certificate of Currency for an existing Open policy directly from
+      the insurer, to validate that cover is in force. Returns a JSON certificate
+      by default, or a PDF when format=pdf. Requires the partner api_key and
+      api_secret plus the customer's policy_number.
+    x-apievangelist-idempotent: true
+    x-apievangelist-idempotency-note: >-
+      Semantically a read despite the POST verb — repeated calls with the same
+      policy_number return the same certificate. Open publishes no
+      Idempotency-Key contract.
+    x-agentic-access:
+      action-class: connected
+      consequence: read
+      note: >-
+        Overrides the mechanical classification in
+        agentic-access/open-insurance-agentic-access.yml, which classified this as
+        `acting`/`write` from the POST method alone. It is a lookup that mutates
+        nothing, but it returns personal information (named policy holders, dates
+        of birth, addresses), so subject binding and audit still apply.
+- target: $.paths['/v1/policy/coc'].post.responses
+  description: >-
+    The spec models only 200 and 403. Record the other statuses Open publishes in
+    its error-code reference so consumers handle them.
+  update:
+    x-apievangelist-documented-statuses:
+      401: Enter valid credentials to continue.
+      405: Method not allowed — this path is POST-only.
+      413: Request entity too large.
+      422: Velocity rules violation or non-sufficient funds.
+      500: Internal server error.
+      502: Bad gateway.
+      503: Service unavailable — check the platform status feed.
+      504: Gateway timeout.
+      x-source: https://developers.beopen.com/docs/errors
+      x-note: >-
+        No RFC 9457 problem+json. The documented 403 body is the plain string
+        "Attempt Logged.  Access denied."
+- target: $.paths['/v1/policy/coc'].post.responses['200'].content['application/json'].schema.oneOf[0]
+  description: Flag the field-name typo Open ships in its car-certificate shape.
+  update:
+    x-apievangelist-defect:
+      field: vehilce_rego
+      issue: >-
+        Misspelling of "vehicle_rego" in the published schema AND in the published
+        response example. Consumers must read the typo'd key; it is the contract.
+- target: $.paths['/v1/policy/coc'].post.requestBody.content['application/json'].schema.properties.format
+  description: Enumerate the documented values for the format field.
+  update:
+    x-apievangelist-enum:
+    - JSON
+    - pdf
+    x-apievangelist-default: JSON

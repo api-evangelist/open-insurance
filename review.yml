@@ -1,0 +1,254 @@
+aid: open-insurance
+name: Open
+review:
+  question: Does Open (Open Insurance Pty Limited, Australia) publish a real, self-serve
+    public API surface for insurance — and what does it actually cover?
+  answer: partial
+  date: '2026-07-25'
+  reviewer: API Evangelist
+  homeMarket: Australia
+  legalEntity: Open Insurance Pty Limited, ABN 23 166 949 444, AFSL 451712 (verbatim
+    from the developer-hub footer). Underwriting agent holding a binding authority
+    from the insurer; Huddle Insurance is a business name of Open.
+findings:
+  summary: |
+    Open publishes a genuine, public, unauthenticated developer hub — not a login
+    wall and not a marketing "innovation" page. https://developers.beopen.com
+    returns 200 and redirects to /docs/welcome; it is a ReadMe.io hub with guides,
+    quickstarts, a sandbox section, error codes, key management and an API
+    Reference section.
+
+    The surface behind that hub is narrow. The API Reference contains exactly ONE
+    endpoint — POST /v1/policy/coc, "Retrieve a Certificate of Currency" — and a
+    real OpenAPI 3.0.3 definition for it is retrievable and parses. Everything else
+    documented is client-side integration: the Open.js browser SDK, the Open.Widget
+    embed, and a URL-handover redirect. Quote is prepared and polled through the
+    SDK; bind, issue, policy servicing and claims all take place inside Open's
+    hosted (optionally domain-white-labelled) journey rather than over an API.
+
+    Access is partner-gated even though the docs are not. The documentation states
+    keys "are issued by Open during account creation. Contact your account manager
+    or email [support] to enquire about them." There is no self-serve signup, no
+    public sandbox registration, and no published pricing for API access.
+
+    No ACORD, AL3, ACORD XML, NGDS, IVANS, Applied Epic or Vertafore reference
+    appears anywhere in the developer hub, the llms.txt index, the harvested
+    OpenAPI, or the corporate marketing site. For an Australian underwriting
+    agency this is unsurprising — Australia has no live open-insurance obligation
+    (the Consumer Data Right was designated for general insurance and then
+    deferred), so there is no forcing function pulling a standards-based data
+    interface into existence.
+
+    NOTE — homonym trap. The domain open.com.au is NOT this company. It 302
+    redirects to https://radiatorsoftware.com (Open System Consultants, the
+    Australian maker of the Radiator RADIUS/AAA server, now owned by Radiator
+    Software); the Wayback title for open.com.au reads "Open System Consultants -
+    Makers of Radiator AAA server - OSC". Open the insurtech lives at beopen.com,
+    which was confirmed by reading the default apiEndpoint/portalUrl out of the
+    Open.js SDK that huddle.com.au loads. github.com/open-insurance (an
+    open-insurance.org project) and getopen.com are likewise unrelated.
+  developerPortal:
+    url: https://developers.beopen.com/docs/welcome
+    httpStatus: 200
+    platform: ReadMe.io
+    classification: real self-serve developer portal with reference docs
+    loginWall: false
+    note: Public and unauthenticated to read. Credentials to actually integrate are
+      partner-issued, so the integration surface itself is gated.
+  probes:
+  - url: https://open.com.au/
+    status: 302
+    note: Redirects to https://radiatorsoftware.com — unrelated networking-software
+      vendor, not this company.
+  - url: https://www.beopen.com/
+    status: 200
+  - url: https://developers.beopen.com/
+    status: 200
+    note: Redirects to /docs/welcome.
+  - url: https://developer.beopen.com/
+    status: 000
+    note: Does not resolve.
+  - url: https://docs.beopen.com/
+    status: 404
+  - url: https://api.beopen.com/
+    status: 404
+  - url: https://api.beopen.com/v1/policy/coc
+    status: 405
+    note: GET rejected; endpoint is live and POST-only, confirming the production host.
+  - url: https://api.sandbox.beopen.com/
+    status: 000
+    note: Sandbox host declared in the OpenAPI servers block does not answer a bare
+      root request.
+  - url: https://portal.beopen.com/
+    status: 200
+  - url: https://insurance.beopen.com/
+    status: 200
+    note: Customer policy portal (magic-link destination).
+  - url: https://www.beopen.com/developers
+    status: 404
+  - url: https://www.beopen.com/api
+    status: 404
+  - url: https://www.beopen.com/partners
+    status: 404
+  - url: https://developers.beopen.com/llms.txt
+    status: 200
+    note: Agent-facing index of the guides.
+  - url: https://developers.beopen.com/llms-full.txt
+    status: 404
+  - url: https://developers.beopen.com/openapi.json
+    status: 404
+  - url: https://developers.beopen.com/swagger.json
+    status: 404
+  - url: https://developers.beopen.com/api-docs
+    status: 404
+  specsHarvested:
+  - file: openapi/open-insurance-certificate-of-currency-openapi.json
+    title: Open Insurance API
+    specVersion: OpenAPI 3.0.3
+    sourceURL: https://dash.readme.com/api/v1/api-registry/3vlfkv0jk7r3
+    discoveredVia: ReadMe hub page state on https://developers.beopen.com/reference/coc
+      exposed oasPublicUrl "@open-developers/v1.0#3vlfkv0jk7r3"
+    httpStatus: 200
+    contentType: application/json
+    fetchDate: '2026-07-25'
+    verbatim: true
+    operations:
+    - POST https://api.sandbox.beopen.com/v1/policy/coc (operationId coc, "Retrieve
+      a Certificate of Currency")
+  acordPosture: no ACORD reference found
+  acordEvidence: |
+    Searched the developer hub pages, llms.txt, the harvested OpenAPI and the
+    beopen.com marketing site for ACORD, AL3, ACORD XML, ACORD certified, NGDS,
+    IVANS, agency download, Applied Epic and Vertafore AMS360. Zero matches. Open
+    integrates partners through its own proprietary SDK/embed/redirect model, not
+    through an insurance data standard.
+  insuranceVerbs:
+    quote: partial — opensdk.quote.prepare creates and pre-fills a quote and
+      opensdk.quote.status / opensdk.quote.history poll it, but there is no
+      server-side rating or premium-return API; the priced journey renders in
+      Open's hosted portal.
+    bind: not exposed as an API — the customer is redirected into the Open-hosted
+      (optionally white-labelled) journey to purchase.
+    issue: not exposed as an API — Open issues under its binding authority inside
+      its own platform; the only policy-level read is the Certificate of Currency.
+    fnol: not exposed — claims are handled in the Open-hosted journey; no FNOL or
+      claims API is documented.
+    audience: partner-facing / embedded-distribution. Not consumer self-serve and
+      not an agent/broker (AMS) integration.
+  authModel:
+    scheme: API key + secret pair, issued per environment (sandbox and production)
+      at partner account creation
+    transport: For the Certificate of Currency API, api_key and api_secret are sent
+      as fields in the JSON request body (not headers). The harvested OpenAPI declares
+      an empty components.securitySchemes and an empty security requirement, so the
+      credential model is documented in prose rather than in the spec.
+    jwt: HS256 JWT signed with the account secret key unlocks advanced SDK features
+      (customer_ref linking, resume-quote). Documented as DEPRECATED and not for new
+      implementations.
+    oauth: none. https://api.beopen.com/.well-known/openid-configuration (404),
+      https://api.beopen.com/.well-known/oauth-authorization-server (404) and
+      https://portal.beopen.com/.well-known/openid-configuration (404) were probed
+      anonymously and none are served.
+    selfServe: false — "Keys are issued by Open during account creation. Contact your
+      account manager."
+  transports:
+  - protocol: REST
+    scheme: https
+    baseURL: https://api.beopen.com
+    documented: true
+    note: One documented operation (POST /v1/policy/coc). The Open.js SDK additionally
+      calls POST {apiEndpoint}/v1/magiclink, observed in the minified SDK source but
+      not published as a REST reference.
+  - protocol: JavaScript SDK
+    scheme: https
+    baseURL: https://opensdk.s3-ap-southeast-2.amazonaws.com/opensdk-1.3.0.min.js
+    documented: true
+    note: Open.js — quote.load / quote.prepare / quote.portal / quote.status /
+      quote.history / magiclink / manage.portal.
+  - protocol: Embed + redirect
+    documented: true
+    note: Open.Widget and URL Handover hand the customer to portal.beopen.com and
+      insurance.beopen.com.
+  - protocol: Webhooks
+    documented: false
+    note: No event catalog, callback registration or AsyncAPI is published. Quote
+      progress is polled with opensdk.quote.status instead.
+  - protocol: GraphQL
+    documented: false
+  - protocol: gRPC
+    documented: false
+  - protocol: MCP
+    scheme: https
+    baseURL: https://developers.beopen.com/mcp
+    documented: false
+    gated: true
+    note: The endpoint answers JSON-RPC but rejects an anonymous initialize with
+      HTTP 401 {"code":-32001,"message":"Authorization required"}. The marketing page
+      https://www.beopen.com/solutions/ai-platform-integration claims "native"
+      Model Context Protocol support for ChatGPT and Claude but publishes no server
+      URL, tool list or auth instructions.
+  postman:
+    published: false
+    note: No public Postman collection or workspace found.
+  statusPage:
+    url: https://healthchecks.io/badge/bcf36e8b-9e05-4212-99b5-8d77c3/5rM6E456/open-platform.json
+    httpStatus: 200
+    note: 'Documented in /docs/check-service-status; returned {"status": "up"} when
+      probed.'
+sources:
+- url: https://developers.beopen.com/docs/welcome
+  type: Documentation
+  note: Public developer hub landing page, HTTP 200.
+- url: https://developers.beopen.com/reference/coc
+  type: APIReference
+  note: The only endpoint in the API Reference; embedded OpenAPI 3.1.0 in page state
+    matches the registry download.
+- url: https://dash.readme.com/api/v1/api-registry/3vlfkv0jk7r3
+  type: OpenAPI
+  note: Verbatim OpenAPI 3.0.3 download, HTTP 200, application/json, fetched 2026-07-25.
+- url: https://developers.beopen.com/docs/keys
+  type: Documentation
+  note: API key / secret key model and the partner-issued (non-self-serve) onboarding.
+- url: https://developers.beopen.com/docs/authenticating-using-jwt
+  type: Documentation
+  note: HS256 JWT signed with the secret key; marked deprecated.
+- url: https://developers.beopen.com/docs/openjs
+  type: APIReference
+  note: Open.js method list.
+- url: https://developers.beopen.com/docs/prepare-a-quote
+  type: Documentation
+  note: Quote creation and pre-fill properties.
+- url: https://developers.beopen.com/docs/check-service-status
+  type: Documentation
+  note: healthchecks.io status JSON, plus the AFSL/binding-authority disclosure used
+    for the legal entity.
+- url: https://developers.beopen.com/llms.txt
+  type: Documentation
+  note: Agent-facing index; positions Open as "infrastructure and APIs to offer cover,
+    pay claims, and manage their car, home and travel insurance business online."
+- url: https://www.beopen.com/
+  type: Website
+  note: Corporate site; Australia (AFSL), UK (FCA) and New Zealand markets, car, home
+    and contents, landlord and travel lines.
+- url: https://www.beopen.com/platform/infrastructure
+  type: Website
+  note: Platform claims ("one SDK and a set of APIs", window.opensdk.quote.prepare);
+    names no ACORD, EDI or ISO standard.
+- url: https://opensdk.s3-ap-southeast-2.amazonaws.com/opensdk-1.3.0.min.js
+  type: SDK
+  note: Minified Open.js, HTTP 200; source of the api.beopen.com / portal.beopen.com
+    default endpoints and of POST /v1/magiclink.
+- url: https://open.com.au/
+  type: Disambiguation
+  note: HTTP 302 to radiatorsoftware.com — Open System Consultants, not this company.
+actions:
+  openapiHarvested: 1
+  openapiPath: openapi/open-insurance-certificate-of-currency-openapi.json
+  apisYmlUpdated: true
+  asyncapiSpecCreated: false
+  reason: |
+    Two apis[] entries were recorded: the Certificate of Currency REST API (with the
+    harvested OpenAPI) and the Open.js embedded-insurance SDK. No AsyncAPI was
+    authored because no event, webhook or streaming surface is documented. No
+    additional APIs were invented to fill out the record — the hosted quote/bind/
+    claims journey is deliberately NOT represented as an API, because it is not one.

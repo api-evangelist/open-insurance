@@ -1,0 +1,136 @@
+aid: open-insurance
+url: https://raw.githubusercontent.com/api-evangelist/open-insurance/refs/heads/main/apis.yml
+name: Open
+kind: company
+description: Open Insurance Pty Limited (ABN 23 166 949 444, AFSL 451712), trading
+  as Open, is an Australian insurtech and underwriting agency that packages car, home
+  and contents, landlord and travel cover as an embedded product other brands can
+  sell. Open is not a carrier — it holds a binding authority from the insurer, acts
+  as the insurer's agent to issue, vary, renew and cancel policies and to handle claims,
+  and appoints partner brands as authorised representatives. Huddle Insurance is a
+  business name of Open, and partner programs include Bupa and the SuperSaveClub marketplace;
+  the business also operates in the United Kingdom and New Zealand from its Australian
+  home market. Its API posture is real but narrow and partner-gated. Open runs a public,
+  unauthenticated ReadMe developer hub at developers.beopen.com covering the Open.js
+  browser SDK, the Open.Widget embed and a URL-handover redirect, plus exactly one
+  documented server-side REST operation — POST /v1/policy/coc, Retrieve a Certificate
+  of Currency — for which a real OpenAPI 3.0.3 definition is published. Quote is only
+  prepared and polled through the SDK; bind, issue, policy servicing and claims all
+  happen inside Open's hosted (optionally white-labelled) journey rather than over
+  an API, and there is no public FNOL, webhook, GraphQL or Postman surface. API keys
+  and secrets are issued by Open at partner account creation — there is no self-serve
+  signup — and no ACORD, AL3 or NGDS reference appears anywhere on the site or in the
+  documentation.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Insurance
+- Australia
+- Insurtech
+- Embedded Insurance
+- Property and Casualty
+- Travel Insurance
+- Underwriting
+- Policy Administration
+- White Label
+- Quote
+created: '2026-07-25'
+modified: '2026-07-25'
+specificationVersion: '0.19'
+apis:
+- aid: open-insurance:open-certificate-of-currency-api
+  name: Open Certificate of Currency API
+  description: The single documented server-side REST operation on the Open Platform.
+    POST /v1/policy/coc retrieves a Certificate of Currency for an existing policy
+    directly from the insurer to validate cover, returning JSON or PDF. Credentials
+    are an api_key / api_secret pair passed in the request body, issued by Open at
+    partner account creation. The published OpenAPI 3.0.3 definition declares the sandbox
+    host https://api.sandbox.beopen.com; the production host https://api.beopen.com
+    answers the same path (GET returns 405, POST only).
+  humanURL: https://developers.beopen.com/reference/coc
+  baseURL: https://api.beopen.com
+  tags:
+  - Insurance
+  - Policy
+  - Certificate of Currency
+  - Australia
+  properties:
+  - type: OpenAPI
+    url: openapi/open-insurance-certificate-of-currency-openapi.json
+  - type: APIReference
+    url: https://developers.beopen.com/reference/coc
+  - type: Documentation
+    url: https://developers.beopen.com/docs/welcome
+  - type: Documentation
+    url: https://developers.beopen.com/docs/keys
+  - type: Documentation
+    url: https://developers.beopen.com/docs/errors
+- aid: open-insurance:open-js-embedded-insurance-sdk
+  name: Open.js Embedded Insurance SDK
+  description: Open's browser JavaScript library for embedding insurance into a partner's
+    web app. Documented methods are opensdk.quote.load, opensdk.quote.prepare, opensdk.quote.portal,
+    opensdk.quote.status, opensdk.quote.history, opensdk.magiclink and opensdk.manage.portal.
+    It creates and pre-fills a quote and polls its status, then hands the customer
+    to Open's hosted portal to complete purchase, manage the policy and claim — bind
+    and issue are not exposed as API calls. The library defaults to the api.beopen.com
+    backend (api.sandbox.beopen.com in sandbox) and portal.beopen.com, and is served
+    from https://opensdk.s3-ap-southeast-2.amazonaws.com/opensdk-1.3.0.min.js. Sibling
+    integration surfaces documented in the same hub are Open.Widget and a URL handover
+    redirect.
+  humanURL: https://developers.beopen.com/docs/openjs
+  baseURL: https://api.beopen.com
+  tags:
+  - Insurance
+  - Embedded Insurance
+  - SDK
+  - Quote
+  properties:
+  - type: APIReference
+    url: https://developers.beopen.com/docs/openjs
+  - type: Documentation
+    url: https://developers.beopen.com/docs/using-openjs
+  - type: Documentation
+    url: https://developers.beopen.com/docs/prepare-a-quote
+  - type: Documentation
+    url: https://developers.beopen.com/docs/check-quote-status
+  - type: Documentation
+    url: https://developers.beopen.com/docs/retrieve-quote-history
+  - type: Documentation
+    url: https://developers.beopen.com/docs/redirect-to-portal
+  - type: Documentation
+    url: https://developers.beopen.com/docs/redirect-to-policy-portal
+  - type: Documentation
+    url: https://developers.beopen.com/docs/request-a-magic-link
+  - type: Documentation
+    url: https://developers.beopen.com/docs/authenticating-using-jwt
+  - type: Documentation
+    url: https://developers.beopen.com/docs/embedded-widget
+  - type: Documentation
+    url: https://developers.beopen.com/docs/url-handover
+  - type: Documentation
+    url: https://developers.beopen.com/docs/domain-white-labelling
+common:
+- type: Website
+  url: https://www.beopen.com/
+- type: Documentation
+  url: https://developers.beopen.com/docs/welcome
+- type: APIReference
+  url: https://developers.beopen.com/reference
+- type: Authentication
+  url: https://developers.beopen.com/docs/keys
+- type: ErrorCodes
+  url: https://developers.beopen.com/docs/errors
+- type: Status
+  url: https://developers.beopen.com/docs/check-service-status
+- type: LLMsTxt
+  url: https://developers.beopen.com/llms.txt
+- type: Portal
+  url: https://insurance.beopen.com/
+- type: Contact
+  url: https://www.beopen.com/contact
+- type: TermsOfService
+  url: https://www.beopen.com/terms/australia
+- type: LinkedIn
+  url: https://www.linkedin.com/company/beopen
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

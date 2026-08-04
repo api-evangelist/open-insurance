@@ -1,6 +1,7 @@
 generated: '2026-07-25'
 method: searched
-status: published-gated
+status: gated
+status_raw: published-gated
 source: https://www.beopen.com/solutions/ai-platform-integration
 note: >-
   Two distinct MCP realities at Open, and they should not be conflated.

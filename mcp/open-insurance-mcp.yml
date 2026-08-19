@@ -3,21 +3,16 @@ method: searched
 status: gated
 status_raw: published-gated
 source: https://www.beopen.com/solutions/ai-platform-integration
-note: >-
-  Two distinct MCP realities at Open, and they should not be conflated.
-  (1) A LIVE endpoint exists at https://developers.beopen.com/mcp. It speaks
-  JSON-RPC but rejects an anonymous tools/list with HTTP 401
-  {"code":-32001,"message":"Authorization required"}. RFC 9728 metadata at
-  /.well-known/oauth-protected-resource/mcp names ReadMe's authorization server
-  (https://dash.readme.com/oidc), which identifies this as the documentation-search
-  MCP server that the ReadMe developer-hub platform provisions — not an Open
-  product API. Its tool list and inputSchemas could not be enumerated anonymously.
-  (2) Open's marketing publishes a product claim of "native" Model Context
-  Protocol support so that ChatGPT and Claude can pull live product and pricing
-  data and hand a customer into a pre-filled quote. As of this probe Open
-  publishes NO server URL, NO tool list, NO inputSchemas and NO auth instructions
-  for that product MCP surface; it is sold through "Contact sales". Nothing about
-  its tools is recorded here because nothing is published.
+note: Two distinct MCP realities at Open, and they should not be conflated. (1) A LIVE endpoint exists
+  at https://developers.beopen.com/mcp. It speaks JSON-RPC but rejects an anonymous tools/list with HTTP
+  401 {"code":-32001,"message":"Authorization required"}. RFC 9728 metadata at /.well-known/oauth-protected-resource/mcp
+  names ReadMe's authorization server (https://dash.readme.com/oidc), which identifies this as the documentation-search
+  MCP server that the ReadMe developer-hub platform provisions — not an Open product API. Its tool list
+  and inputSchemas could not be enumerated anonymously. (2) Open's marketing publishes a product claim
+  of "native" Model Context Protocol support so that ChatGPT and Claude can pull live product and pricing
+  data and hand a customer into a pre-filled quote. As of this probe Open publishes NO server URL, NO
+  tool list, NO inputSchemas and NO auth instructions for that product MCP surface; it is sold through
+  "Contact sales". Nothing about its tools is recorded here because nothing is published.
 servers:
 - name: open-developer-docs-mcp
   url: https://developers.beopen.com/mcp
@@ -37,8 +32,7 @@ servers:
     body: '{"jsonrpc":"2.0","error":{"code":-32001,"message":"Authorization required"},"id":null}'
     date: '2026-07-25'
   tools: []
-  tools_note: >-
-    Auth-gated. Live schemas require authenticated introspection; not fabricated here.
+  tools_note: Auth-gated. Live schemas require authenticated introspection; not fabricated here.
 - name: open-product-mcp
   url: null
   transport: unknown
@@ -57,13 +51,18 @@ servers:
 candidate_tools:
   method: derived
   source: openapi/open-insurance-certificate-of-currency-openapi.json
-  note: >-
-    Candidate tools an MCP server over Open's ONE public REST operation could
-    expose. Not published by Open; derived so the crosswalk has a REST anchor.
+  note: Candidate tools an MCP server over Open's ONE public REST operation could expose. Not published
+    by Open; derived so the crosswalk has a REST anchor.
   tools:
   - name: retrieve_certificate_of_currency
-    description: >-
-      Retrieve a Certificate of Currency for an existing Open policy, direct from
-      the insurer, to validate cover. Returns JSON or PDF.
+    description: Retrieve a Certificate of Currency for an existing Open policy, direct from the insurer,
+      to validate cover. Returns JSON or PDF.
     source_operation: openapi/open-insurance-certificate-of-currency-openapi.json#coc
     status: candidate
+deployment:
+  mode: remote
+  endpoint: https://developers.beopen.com/mcp
+  verified: probed
+  probe: gated
+  checked: '2026-08-12'
+  source: catalog MCP census

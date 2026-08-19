@@ -1,0 +1,164 @@
+{
+  "item": [
+    {
+      "id": "718cfc90-b96b-4231-892d-d75bdb301997",
+      "name": "Retrieve a Certificate of Currency",
+      "request": {
+        "name": "Retrieve a Certificate of Currency",
+        "description": {
+          "content": "",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "v1",
+            "policy",
+            "coc"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"api_key\": \"22cb240d-dc0a-4655-bf30-70e50ac3905a\",\n  \"api_secret\": \"F0sWmvYzDlVIX4BJGTwWIX_e_dTcYO2OFI4YFac1Ho-juK-LOQOxI-HZ2ZOGdybNC6f39j9XMhptjvpH0IreJw\",\n  \"policy_number\": \"HMCP00001568\",\n  \"format\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "bd6a08dd-3764-4d22-b014-483030df4f5f",
+          "name": "200",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "v1",
+                "policy",
+                "coc"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"api_key\": \"22cb240d-dc0a-4655-bf30-70e50ac3905a\",\n  \"api_secret\": \"F0sWmvYzDlVIX4BJGTwWIX_e_dTcYO2OFI4YFac1Ho-juK-LOQOxI-HZ2ZOGdybNC6f39j9XMhptjvpH0IreJw\",\n  \"policy_number\": \"HMCP00001568\",\n  \"format\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "\"{\\n    \\\"timestamp\\\": \\\"2021-10-20T15:59:21Z+1100\\\",\\n    \\\"premium\\\": \\\"589.43\\\",\\n    \\\"policy_currency\\\": \\\"AUD\\\",\\n    \\\"policy_number\\\": \\\"PECP00000001\\\",\\n    \\\"policy_issued_date\\\": \\\"2021-10-06T01:26:34Z+0000\\\",\\n    \\\"policy_effective_from\\\": \\\"2021-10-14T00:00:00Z+1100\\\",\\n    \\\"policy_expires_on\\\": \\\"2022-10-14T23:59:59Z+1100\\\",\\n    \\\"policy\\\": \\\"Comprehensive - Pay As You Drive\\\",\\n    \\\"policy_holders\\\": [\\n        {\\n            \\\"last_name\\\": \\\"John\\\",\\n            \\\"given_name\\\": \\\"Snow\\\",\\n            \\\"dob\\\": \\\"1990-11-11\\\"\\n        }\\n    ],\\n    \\\"address\\\": \\\"10 Example Street Sydney, NSW 2000\\\",\\n    \\\"financial_interest\\\": \\\"Example Car Finance\\\",\\n    \\\"vehicle\\\": \\\"2014 Holden Barina RS TM MY15 5D Hatchback 6 SP Manual Turbo 4\\\",\\n    \\\"vehilce_rego\\\": \\\"SDFGHJ\\\",\\n    \\\"sum_insured\\\": \\\"Market Value\\\",\\n    \\\"base_excess\\\": \\\"1000\\\"\\n}\"",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "431a9962-c0b8-4ed3-ab94-fad19d7bfa23",
+          "name": "403",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "v1",
+                "policy",
+                "coc"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"api_key\": \"22cb240d-dc0a-4655-bf30-70e50ac3905a\",\n  \"api_secret\": \"F0sWmvYzDlVIX4BJGTwWIX_e_dTcYO2OFI4YFac1Ho-juK-LOQOxI-HZ2ZOGdybNC6f39j9XMhptjvpH0IreJw\",\n  \"policy_number\": \"HMCP00001568\",\n  \"format\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "Attempt Logged.  Access denied.",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.sandbox.beopen.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "noauth"
+  },
+  "info": {
+    "_postman_id": "57a788d8-2d99-4d6f-acd0-8a08c2ffe2be",
+    "name": "Open Insurance API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Open Insurance API",
+    "version": "unknown"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Retrieve a Certificate of Currency",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://api.sandbox.beopen.com/v1/policy/coc",
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Retrieve a Certificate of Currency"
+    }
+  ],
+  "bundled": true
+}

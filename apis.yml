@@ -35,7 +35,7 @@ tags:
 - Quote
 created: '2026-07-25'
 modified: '2026-07-25'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: open-insurance:open-certificate-of-currency-api
   name: Open Certificate of Currency API

@@ -32,6 +32,17 @@ tags:
 - Underwriting
 - Policy Administration
 - White Label
+- Quotes
+tags_raw:
+- Insurance
+- Australia
+- Insurtech
+- Embedded Insurance
+- Property and Casualty
+- Travel Insurance
+- Underwriting
+- Policy Administration
+- White Label
 - Quote
 created: '2026-07-25'
 modified: '2026-07-25'
@@ -81,6 +92,11 @@ apis:
   humanURL: https://developers.beopen.com/docs/openjs
   baseURL: https://api.beopen.com
   tags:
+  - Insurance
+  - Embedded Insurance
+  - SDK
+  - Quotes
+  tags_raw:
   - Insurance
   - Embedded Insurance
   - SDK

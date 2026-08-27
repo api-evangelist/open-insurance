@@ -48,47 +48,16 @@ created: '2026-07-25'
 modified: '2026-07-25'
 specificationVersion: '0.23'
 apis:
-- aid: open-insurance:open-certificate-of-currency-api
-  name: Open Certificate of Currency API
-  description: The single documented server-side REST operation on the Open Platform.
-    POST /v1/policy/coc retrieves a Certificate of Currency for an existing policy
-    directly from the insurer to validate cover, returning JSON or PDF. Credentials
-    are an api_key / api_secret pair passed in the request body, issued by Open at
-    partner account creation. The published OpenAPI 3.0.3 definition declares the sandbox
-    host https://api.sandbox.beopen.com; the production host https://api.beopen.com
-    answers the same path (GET returns 405, POST only).
-  humanURL: https://developers.beopen.com/reference/coc
-  baseURL: https://api.beopen.com
-  tags:
-  - Insurance
-  - Policy
-  - Certificate of Currency
-  - Australia
-  properties:
-  - type: OpenAPI
-    url: openapi/open-insurance-certificate-of-currency-openapi.json
-  - type: Overlay
-    url: overlays/open-insurance-certificate-of-currency-overlay.yaml
-  - type: APIReference
-    url: https://developers.beopen.com/reference/coc
-  - type: Documentation
-    url: https://developers.beopen.com/docs/welcome
-  - type: Documentation
-    url: https://developers.beopen.com/docs/keys
-  - type: Documentation
-    url: https://developers.beopen.com/docs/errors
 - aid: open-insurance:open-js-embedded-insurance-sdk
   name: Open.js Embedded Insurance SDK
-  description: Open's browser JavaScript library for embedding insurance into a partner's
-    web app. Documented methods are opensdk.quote.load, opensdk.quote.prepare, opensdk.quote.portal,
-    opensdk.quote.status, opensdk.quote.history, opensdk.magiclink and opensdk.manage.portal.
-    It creates and pre-fills a quote and polls its status, then hands the customer
-    to Open's hosted portal to complete purchase, manage the policy and claim — bind
-    and issue are not exposed as API calls. The library defaults to the api.beopen.com
-    backend (api.sandbox.beopen.com in sandbox) and portal.beopen.com, and is served
-    from https://opensdk.s3-ap-southeast-2.amazonaws.com/opensdk-1.3.0.min.js. Sibling
-    integration surfaces documented in the same hub are Open.Widget and a URL handover
-    redirect.
+  description: >-
+    Open's browser JavaScript library for embedding insurance into a partner's web app. Documented methods
+    are opensdk.quote.load, opensdk.quote.prepare, opensdk.quote.portal, opensdk.quote.status, opensdk.quote.history,
+    opensdk.magiclink and opensdk.manage.portal. It creates and pre-fills a quote and polls its status,
+    then hands the customer to Open's hosted portal to complete purchase, manage the policy and claim
+    — bind and issue are not exposed as API calls. The library defaults to the api.beopen.com backend
+    (api.sandbox.beopen.com in sandbox) and portal.beopen.com, and is served from https://opensdk.s3-ap-southeast-2.amazonaws.com/opensdk-1.3.0.min.js.
+    Sibling integration surfaces documented in the same hub are Open.Widget and a URL handover redirect.
   humanURL: https://developers.beopen.com/docs/openjs
   baseURL: https://api.beopen.com
   tags:
@@ -126,7 +95,27 @@ apis:
     url: https://developers.beopen.com/docs/url-handover
   - type: Documentation
     url: https://developers.beopen.com/docs/domain-white-labelling
+- aid: open-insurance:open-insurance-policy-api
+  name: Open Policy API
+  description: The Policy API from Open — 1 operation(s) for policy.
+  humanURL: https://developers.beopen.com/reference/coc
+  baseURL: https://api.beopen.com
+  tags:
+  - Policy
+  properties:
+  - type: OpenAPI
+    url: openapi/open-insurance-policy-api-openapi.yml
+  - type: APIReference
+    url: https://developers.beopen.com/reference/coc
+  - type: Documentation
+    url: https://developers.beopen.com/docs/welcome
+  - type: Documentation
+    url: https://developers.beopen.com/docs/keys
+  - type: Documentation
+    url: https://developers.beopen.com/docs/errors
 common:
+- type: Overlay
+  url: overlays/open-insurance-certificate-of-currency-overlay.yaml
 - type: DomainSecurity
   url: security/open-insurance-domain-security.yml
 - type: AgenticAccess

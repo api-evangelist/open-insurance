@@ -125,6 +125,9 @@ apis:
   - type: Documentation
     url: https://developers.beopen.com/docs/errors
 common:
+- type: CapabilityMap
+  url: capabilities/open-insurance-capability-edges.yml
+  name: Open Business Capability Map
 - type: Overlay
   url: overlays/open-insurance-certificate-of-currency-overlay.yaml
 - type: DomainSecurity

@@ -1,0 +1,26 @@
+slug: open-insurance
+provider: Open
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Insurance
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Policy
+  spec_file: open-insurance-policy-api-openapi.yml
+  capability_id: BC-2140.50
+  capability_id_l1: BC-2140
+  capability_name: Policy Document & Records Management
+  confidence: 0.75
+  evidence: POST /v1/policy/coc  coc  Retrieve a Certificate of Currency
+  reason: The single operation retrieves a Certificate of Currency for a policy — production/provision
+    of an in-force policy document by an agency that 'acts as the insurer's agent to issue, vary, renew
+    and cancel policies'. This is policy document provision within Policy Administration; some chance
+    the intended sub-capability is policyholder servicing document provision, hence 0.75.

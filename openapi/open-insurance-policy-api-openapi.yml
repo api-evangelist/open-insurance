@@ -1,0 +1,196 @@
+openapi: 3.2.0
+info:
+  title: Open Insurance Policy API
+  version: unknown
+servers:
+- url: https://api.sandbox.beopen.com
+security:
+- {}
+tags:
+- name: Policy
+paths:
+  /v1/policy/coc:
+    post:
+      summary: Retrieve a Certificate of Currency
+      description: ''
+      operationId: coc
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - api_key
+              - api_secret
+              - policy_number
+              properties:
+                api_key:
+                  type: string
+                  description: The API key provided to you upon account creation.
+                  default: 22cb240d-dc0a-4655-bf30-70e50ac3905a
+                api_secret:
+                  type: string
+                  description: The API secret provided to you upon account creation.
+                  default: F0sWmvYzDlVIX4BJGTwWIX_e_dTcYO2OFI4YFac1Ho-juK-LOQOxI-HZ2ZOGdybNC6f39j9XMhptjvpH0IreJw
+                policy_number:
+                  type: string
+                  description: The customer's policy number.
+                  default: HMCP00001568
+                format:
+                  type: string
+                  description: Optional. The format of data received. By default, this will be JSON when not specified. Options include JSON and pdf.
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Car insurance:
+                  value: "{\n    \"timestamp\": \"2021-10-20T15:59:21Z+1100\",\n    \"premium\": \"589.43\",\n    \"policy_currency\": \"AUD\",\n    \"policy_number\": \"PECP00000001\",\n    \"policy_issued_date\": \"2021-10-06T01:26:34Z+0000\",\n    \"policy_effective_from\": \"2021-10-14T00:00:00Z+1100\",\n    \"policy_expires_on\": \"2022-10-14T23:59:59Z+1100\",\n    \"policy\": \"Comprehensive - Pay As You Drive\",\n    \"policy_holders\": [\n        {\n            \"last_name\": \"John\",\n            \"given_name\": \"Snow\",\n            \"dob\": \"1990-11-11\"\n        }\n    ],\n    \"address\": \"10 Example Street Sydney, NSW 2000\",\n    \"financial_interest\": \"Example Car Finance\",\n    \"vehicle\": \"2014 Holden Barina RS TM MY15 5D Hatchback 6 SP Manual Turbo 4\",\n    \"vehilce_rego\": \"SDFGHJ\",\n    \"sum_insured\": \"Market Value\",\n    \"base_excess\": \"1000\"\n}"
+                Home insurance:
+                  value: "{\n    \"timestamp\": \"2021-10-20T16:15:52Z+1100\",\n    \"premium\": \"3008.83\",\n    \"policy_currency\": \"AUD\",\n    \"policy_number\": \"PEHXC0000001\",\n    \"policy_issued_date\": \"2021-10-06T01:37:17Z+0000\",\n    \"policy_effective_from\": \"2021-10-14T00:00:00Z+1100\",\n    \"policy_expires_on\": \"2022-10-14T23:59:59Z+1100\",\n    \"policy\": \"Comprehensive Home & Contents\",\n    \"policy_holders\": [\n        {\n            \"last_name\": \"Snow\",\n            \"given_name\": \"John\",\n            \"dob\": \"1990-11-11\"\n        }\n    ],\n    \"address\": \"10 Example Street Sydney, NSW 2000\",\n    \"financial_interest\": \"Example Home Finance\",\n    \"landlord\": null,\n    \"home\": {\n        \"sum_insured\": 850000,\n        \"base_excess\": 500\n    },\n    \"contents\": {\n        \"sum_insured\": 80000,\n        \"base_excess\": 500\n    }\n}"
+              schema:
+                oneOf:
+                - title: Car insurance
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      example: 2021-10-20T15:59:21Z+1100
+                    premium:
+                      type: string
+                      example: '589.43'
+                    policy_currency:
+                      type: string
+                      example: AUD
+                    policy_number:
+                      type: string
+                      example: PECP00000001
+                    policy_issued_date:
+                      type: string
+                      example: 2021-10-06T01:26:34Z+0000
+                    policy_effective_from:
+                      type: string
+                      example: 2021-10-14T00:00:00Z+1100
+                    policy_expires_on:
+                      type: string
+                      example: 2022-10-14T23:59:59Z+1100
+                    policy:
+                      type: string
+                      example: Comprehensive - Pay As You Drive
+                    policy_holders:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          last_name:
+                            type: string
+                            example: John
+                          given_name:
+                            type: string
+                            example: Snow
+                          dob:
+                            type: string
+                            example: '1990-11-11'
+                    address:
+                      type: string
+                      example: 10 Example Street Sydney, NSW 2000
+                    financial_interest:
+                      type: string
+                      example: Example Car Finance
+                    vehicle:
+                      type: string
+                      example: 2014 Holden Barina RS TM MY15 5D Hatchback 6 SP Manual Turbo 4
+                    vehilce_rego:
+                      type: string
+                      example: SDFGHJ
+                    sum_insured:
+                      type: string
+                      example: Market Value
+                    base_excess:
+                      type: string
+                      example: '1000'
+                - title: Home insurance
+                  type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      example: 2021-10-20T16:15:52Z+1100
+                    premium:
+                      type: string
+                      example: '3008.83'
+                    policy_currency:
+                      type: string
+                      example: AUD
+                    policy_number:
+                      type: string
+                      example: PEHXC0000001
+                    policy_issued_date:
+                      type: string
+                      example: 2021-10-06T01:37:17Z+0000
+                    policy_effective_from:
+                      type: string
+                      example: 2021-10-14T00:00:00Z+1100
+                    policy_expires_on:
+                      type: string
+                      example: 2022-10-14T23:59:59Z+1100
+                    policy:
+                      type: string
+                      example: Comprehensive Home & Contents
+                    policy_holders:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          last_name:
+                            type: string
+                            example: Snow
+                          given_name:
+                            type: string
+                            example: John
+                          dob:
+                            type: string
+                            example: '1990-11-11'
+                    address:
+                      type: string
+                      example: 10 Example Street Sydney, NSW 2000
+                    financial_interest:
+                      type: string
+                      example: Example Home Finance
+                    landlord: {}
+                    home:
+                      type: object
+                      properties:
+                        sum_insured:
+                          type: integer
+                          example: 850000
+                          default: 0
+                        base_excess:
+                          type: integer
+                          example: 500
+                          default: 0
+                    contents:
+                      type: object
+                      properties:
+                        sum_insured:
+                          type: integer
+                          example: 80000
+                          default: 0
+                        base_excess:
+                          type: integer
+                          example: 500
+                          default: 0
+        '403':
+          description: '403'
+          content:
+            text/plain:
+              examples:
+                Result:
+                  value: Attempt Logged.  Access denied.
+      deprecated: false
+      security: []
+      tags:
+      - Policy
+x-readme:
+  headers: []
+x-readme-fauxas: true

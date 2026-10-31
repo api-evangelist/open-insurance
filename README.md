@@ -1,4 +1,4 @@
-# Open (open-insurance)
+# Open
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,106 +64,120 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Open Insurance Pty Limited (ABN 23 166 949 444, AFSL 451712), trading as Open, is an Australian insurtech and underwriting agency that packages car, home and contents, landlord and travel cover as an embedded product other brands can sell. Open is not a carrier — it holds a binding authority from the insurer, acts as the insurer's agent to issue, vary, renew and cancel policies and to handle claims, and appoints partner brands as authorised representatives. Huddle Insurance is a business name of Open, and partner programs include Bupa and the SuperSaveClub marketplace; the business also operates in the United Kingdom and New Zealand from its Australian home market.
+Open Insurance Pty Limited (ABN 23 166 949 444, AFSL 451712), trading as Open, is an Australian insurtech and underwriting agency that packages car, home and contents, landlord and travel cover as an embedded product other brands can sell. Open is not a carrier — it holds a binding authority from the insurer, acts as the insurer's agent to issue, vary, renew and cancel policies and to handle claims, and appoints partner brands as authorised representatives. Huddle Insurance is a business name of Open, and partner programs include Bupa and the SuperSaveClub marketplace; the business also operates in the United Kingdom and New Zealand from its Australian home market. Its API posture is real but narrow and partner-gated. Open runs a public, unauthenticated ReadMe developer hub at developers.beopen.com covering the Open.js browser SDK, the Open.Widget embed and a URL-handover redirect, plus exactly one documented server-side REST operation — POST /v1/policy/coc, Retrieve a Certificate of Currency — for which a real OpenAPI 3.0.3 definition is published. Quote is only prepared and polled through the SDK; bind, issue, policy servicing and claims all happen inside Open's hosted (optionally white-labelled) journey rather than over an API, and there is no public FNOL, webhook, GraphQL or Postman surface. API keys and secrets are issued by Open at partner account creation — there is no self-serve signup — and no ACORD, AL3 or NGDS reference appears anywhere on the site or in the documentation.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/open-insurance/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/open-insurance/refs/heads/main/apis.yml)
+**Areas:** Insurance · Australia · Insurtech · Embedded Insurance · Property and Casualty · Travel Insurance · Underwriting · Policy Administration · White Label · Quotes
 
-## Tags
+## Open on APIs.io
 
-- Insurance
-- Australia
-- Insurtech
-- Embedded Insurance
-- Property and Casualty
-- Travel Insurance
-- Underwriting
-- Policy Administration
-- White Label
-- Quote
+Everything profiled for Open is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/open-insurance/](https://apis.io/providers/open-insurance/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (2)
 
-- **Created:** 2026-07-25
-- **Modified:** 2026-07-25
+- [Open.js Embedded Insurance SDK](https://apis.io/apis/open-insurance/open-js-embedded-insurance-sdk/) — Open's browser JavaScript library for embedding insurance into a partner's web app. Documented methods are opensdk.quote.load, opensdk.quote.prepare,…
+- [Open Policy API](https://apis.io/apis/open-insurance/open-insurance-policy-api/) — The Policy API from Open — 1 operation(s) for policy.
 
-## APIs
+### Published properties
 
-### Open Certificate of Currency API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-The single documented server-side REST operation on the Open Platform. `POST /v1/policy/coc` retrieves a Certificate of Currency for an existing policy directly from the insurer to validate cover, returning JSON or PDF. Credentials are an `api_key` / `api_secret` pair passed in the request body, issued by Open at partner account creation. The published OpenAPI 3.0.3 definition declares the sandbox host `https://api.sandbox.beopen.com`; the production host `https://api.beopen.com` answers the same path (GET returns 405, POST only).
+#### MCP servers (1)
 
-- **Human URL:** [https://developers.beopen.com/reference/coc](https://developers.beopen.com/reference/coc)
-- **Base URL:** `https://api.beopen.com`
+Model Context Protocol servers that expose the API to agents.
 
-#### Tags
+- [open-insurance-mcp.yml](https://apis.io/servers/open-insurance/open-insurance-mcp-yml/)
 
-- Insurance
-- Policy
-- Certificate of Currency
-- Australia
+#### Agentic access (1)
 
-#### Properties
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- [OpenAPI](openapi/open-insurance-certificate-of-currency-openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://developers.beopen.com/reference/coc)
-- [Documentation](https://developers.beopen.com/docs/welcome)
-- [Documentation — Keys](https://developers.beopen.com/docs/keys)
-- [Documentation — Error codes](https://developers.beopen.com/docs/errors)
+- [Open Insurance Agentic Access](https://apis.io/agentic-access/open-insurance/open-insurance-agentic-access/)
 
-### Open.js Embedded Insurance SDK
+#### Collections (1)
 
-Open's browser JavaScript library for embedding insurance into a partner's web app. Documented methods are `opensdk.quote.load`, `opensdk.quote.prepare`, `opensdk.quote.portal`, `opensdk.quote.status`, `opensdk.quote.history`, `opensdk.magiclink` and `opensdk.manage.portal`. It creates and pre-fills a quote and polls its status, then hands the customer to Open's hosted portal to complete purchase, manage the policy and claim — bind and issue are not exposed as API calls. Sibling integration surfaces documented in the same hub are Open.Widget and a URL handover redirect.
+Postman and Open Collection request collections.
 
-- **Human URL:** [https://developers.beopen.com/docs/openjs](https://developers.beopen.com/docs/openjs)
-- **Base URL:** `https://api.beopen.com`
+- [Open Insurance API](https://apis.io/collections/open-insurance/open-open-insurance-certificate-of-currency/)
 
-#### Tags
+#### Overlays (1)
 
-- Insurance
-- Embedded Insurance
-- SDK
-- Quote
+OpenAPI overlays, including conversational phrasing for each operation.
 
-#### Properties
+- [Open Insurance Certificate Of Currency Overlay](https://apis.io/overlays/open-insurance/open-insurance-certificate-of-currency-overlay/)
 
-- [API Reference](https://developers.beopen.com/docs/openjs)
-- [Documentation — Install Open.js](https://developers.beopen.com/docs/using-openjs)
-- [Documentation — Prepare a quote](https://developers.beopen.com/docs/prepare-a-quote)
-- [Documentation — Check quote status](https://developers.beopen.com/docs/check-quote-status)
-- [Documentation — Retrieve quote history](https://developers.beopen.com/docs/retrieve-quote-history)
-- [Documentation — Redirect to portal](https://developers.beopen.com/docs/redirect-to-portal)
-- [Documentation — Redirect to policy portal](https://developers.beopen.com/docs/redirect-to-policy-portal)
-- [Documentation — Request a magic link](https://developers.beopen.com/docs/request-a-magic-link)
-- [Documentation — Authenticating using JWT](https://developers.beopen.com/docs/authenticating-using-jwt)
-- [Documentation — Open.Widget](https://developers.beopen.com/docs/embedded-widget)
-- [Documentation — URL handover](https://developers.beopen.com/docs/url-handover)
-- [Documentation — Domain white-labelling](https://developers.beopen.com/docs/domain-white-labelling)
+#### Security (2)
 
-## API Posture
+Authentication, trust centre, and vulnerability disclosure.
 
-Open's API posture is real but narrow and partner-gated:
+- [Open Insurance Authentication](https://apis.io/security/open-insurance/open-insurance-authentication/)
+- [Open Insurance Domain Security](https://apis.io/security/open-insurance/open-insurance-domain-security/)
 
-- **Developer portal:** [https://developers.beopen.com/docs/welcome](https://developers.beopen.com/docs/welcome) — HTTP 200, a public and unauthenticated ReadMe.io hub with guides, quickstarts, a sandbox section and an API Reference. Not a login wall.
-- **OpenAPI:** one real OpenAPI 3.0.3 definition, harvested verbatim from the ReadMe API registry on 2026-07-25.
-- **Quote / bind / issue / FNOL:** quote is prepared and polled through the SDK; bind, issue, policy servicing and claims happen inside Open's hosted (optionally white-labelled) journey rather than over an API. No FNOL or claims API is published.
-- **Auth:** API key + secret pair issued per environment at partner account creation — no self-serve signup. A deprecated HS256 JWT signed with the secret key unlocks advanced SDK features. No OAuth2 or OIDC metadata is served.
-- **Webhooks / GraphQL / gRPC / Postman:** none published.
-- **MCP:** `https://developers.beopen.com/mcp` answers JSON-RPC but rejects anonymous `initialize` with HTTP 401 "Authorization required".
-- **ACORD:** no ACORD, AL3, ACORD XML, NGDS, IVANS, Applied Epic or Vertafore reference found anywhere on the site or in the documentation.
+## Where to find this API
 
-> **Disambiguation:** the domain `open.com.au` is *not* this company — it redirects to Radiator Software (formerly Open System Consultants, makers of the Radiator RADIUS/AAA server). Open the insurtech is at [beopen.com](https://www.beopen.com/).
-
-## Links
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.beopen.com/)
-- [Developer Documentation](https://developers.beopen.com/docs/welcome)
-- [API Reference](https://developers.beopen.com/reference)
-- [llms.txt](https://developers.beopen.com/llms.txt)
-- [Customer policy portal](https://insurance.beopen.com/)
-- [Contact](https://www.beopen.com/contact)
-- [Terms (Australia)](https://www.beopen.com/terms/australia)
-- [LinkedIn](https://www.linkedin.com/company/beopen)
+- [Documentation](https://developers.beopen.com/docs/welcome)
+- [Getting started](https://developers.beopen.com/docs/using-openjs)
+- [API reference](https://developers.beopen.com/reference)
+- [Support](https://www.beopen.com/contact)
+- [Blog](https://www.beopen.com/research)
+- [Compliance](https://www.beopen.com/terms/australia)
+- [Terms of service](https://www.beopen.com/terms/australia)
+- [Privacy policy](https://www.beopen.com/terms/australia)
+- [Status](https://developers.beopen.com/docs/check-service-status)
 
-## Maintainers
+## API Evangelist rating
 
-- Kin Lane — kin@apievangelist.com
+**Kin Score 40.7** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 41.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 53.0 |
+| Access clarity | 42.1 |
+
+**Agent readiness 38.3** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 26.3** — Insurance
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/open-insurance/](https://apis.io/providers/open-insurance/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Open: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/open-insurance/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
